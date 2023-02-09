@@ -17,5 +17,3 @@ serde_yaml = "0.7"
 base64 = "~0.7.0"
 futures = "0.1.23"
 
-[dev-dependencies]
-tokio-core = "*"
