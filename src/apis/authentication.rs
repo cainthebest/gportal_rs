@@ -21,32 +21,32 @@ impl<C: Connect> AuthenticationClient<C> {
 }
 
 pub trait Authentication {
-    fn public_api_list_jwt_public_keys(
+    fn list_jwt_public_keys(
         &self,
     ) -> Box<dyn Future<Item = JwtListJwtPublicKeysResponse, Error = Error<JsonValue>>>;
 
-    fn public_api_refresh_tokens(
+    fn refresh_tokens(
         &self,
         body: UserRefreshTokensRequest,
     ) -> Box<dyn Future<Item = UserRefreshTokensResponse, Error = Error<JsonValue>>>;
 
-    fn user_api_create_long_lived_token(
+    fn create_long_lived_token(
         &self,
     ) -> Box<dyn Future<Item = UserLongLivedToken, Error = Error<JsonValue>>>;
 
-    fn user_api_list_long_lived_tokens(
+    fn list_long_lived_tokens(
         &self,
     ) -> Box<dyn Future<Item = UserListLongLivedTokensResponse, Error = Error<JsonValue>>>;
-    
-    fn user_api_revoke_long_lived_token(
+
+    fn revoke_long_lived_token(
         &self,
         token_id: &str,
         body: UserRevokeLongLivedTokenRequest,
     ) -> Box<dyn Future<Item = JsonValue, Error = Error<JsonValue>>>;
 }
 
-impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
-    fn public_api_list_jwt_public_keys(
+impl<C: Connect> Authentication for AuthenticationClient<C> {
+    fn list_jwt_public_keys(
         &self,
     ) -> Box<dyn Future<Item = JwtListJwtPublicKeysResponse, Error = Error<JsonValue>>> {
         let req = __internal_request::Request::new(hyper::Method::Get, "/v1/jwt_keys".to_string())
@@ -61,7 +61,7 @@ impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
         req.execute(self.configuration.borrow())
     }
 
-    fn public_api_refresh_tokens(
+    fn refresh_tokens(
         &self,
         body: UserRefreshTokensRequest,
     ) -> Box<dyn Future<Item = UserRefreshTokensResponse, Error = Error<JsonValue>>> {
@@ -79,7 +79,7 @@ impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
         req.execute(self.configuration.borrow())
     }
 
-    fn user_api_create_long_lived_token(
+    fn create_long_lived_token(
         &self,
     ) -> Box<dyn Future<Item = UserLongLivedToken, Error = Error<JsonValue>>> {
         let req = __internal_request::Request::new(
@@ -97,7 +97,7 @@ impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
         req.execute(self.configuration.borrow())
     }
 
-    fn user_api_list_long_lived_tokens(
+    fn list_long_lived_tokens(
         &self,
     ) -> Box<dyn Future<Item = UserListLongLivedTokensResponse, Error = Error<JsonValue>>> {
         let req = __internal_request::Request::new(
@@ -115,7 +115,7 @@ impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
         req.execute(self.configuration.borrow())
     }
 
-    fn user_api_revoke_long_lived_token(
+    fn revoke_long_lived_token(
         &self,
         token_id: &str,
         body: UserRevokeLongLivedTokenRequest,
