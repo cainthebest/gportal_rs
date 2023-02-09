@@ -51,8 +51,8 @@ impl<T> From<serde_json::Error> for Error<T> {
 
 mod request;
 
-mod authentication_api;
-pub use self::authentication_api::{AuthenticationApi, AuthenticationApiClient};
+mod authentication;
+pub use self::authentication::{Authentication, AuthenticationClient};
 mod billing_api;
 pub use self::billing_api::{BillingApi, BillingApiClient};
 mod compute_api;

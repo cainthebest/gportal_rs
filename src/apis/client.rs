@@ -4,7 +4,7 @@ use super::configuration::Configuration;
 use hyper;
 
 pub struct APIClient {
-    authentication_api: Box<dyn crate::apis::AuthenticationApi>,
+    authentication_api: Box<dyn crate::apis::Authentication>,
     billing_api: Box<dyn crate::apis::BillingApi>,
     compute_api: Box<dyn crate::apis::ComputeApi>,
     country_api: Box<dyn crate::apis::CountryApi>,
@@ -29,7 +29,7 @@ impl APIClient {
         let rc = Rc::new(configuration);
 
         APIClient {
-            authentication_api: Box::new(crate::apis::AuthenticationApiClient::new(rc.clone())),
+            authentication_api: Box::new(crate::apis::AuthenticationClient::new(rc.clone())),
             billing_api: Box::new(crate::apis::BillingApiClient::new(rc.clone())),
             compute_api: Box::new(crate::apis::ComputeApiClient::new(rc.clone())),
             country_api: Box::new(crate::apis::CountryApiClient::new(rc.clone())),
@@ -52,7 +52,7 @@ impl APIClient {
         }
     }
 
-    pub fn authentication_api(&self) -> &dyn crate::apis::AuthenticationApi {
+    pub fn authentication_api(&self) -> &dyn crate::apis::Authentication {
         self.authentication_api.as_ref()
     }
 

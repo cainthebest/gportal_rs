@@ -8,17 +8,17 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct AuthenticationApiClient<C: hyper::client::Connect> {
+pub struct AuthenticationClient<C: hyper::client::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> AuthenticationApiClient<C> {
-    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> AuthenticationApiClient<C> {
-        AuthenticationApiClient { configuration }
+impl<C: hyper::client::Connect> AuthenticationClient<C> {
+    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> AuthenticationClient<C> {
+        AuthenticationClient { configuration }
     }
 }
 
-pub trait AuthenticationApi {
+pub trait Authentication {
     fn public_api_list_jwt_public_keys(
         &self,
     ) -> Box<
@@ -54,7 +54,7 @@ pub trait AuthenticationApi {
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>>;
 }
 
-impl<C: hyper::client::Connect> AuthenticationApi for AuthenticationApiClient<C> {
+impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
     fn public_api_list_jwt_public_keys(
         &self,
     ) -> Box<
