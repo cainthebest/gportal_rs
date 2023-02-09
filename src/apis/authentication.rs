@@ -1,19 +1,21 @@
-use std::borrow::Borrow;
-use std::rc::Rc;
+use std::{borrow::Borrow, rc::Rc};
 
 use futures::Future;
-use hyper;
-use serde_json;
+use hyper::client::Connect;
+use serde_json::Value as JsonValue;
 
-use super::request as __internal_request;
-use super::{configuration, Error};
+use super::{configuration::Configuration, request as __internal_request, Error};
+use crate::models::{
+    JwtListJwtPublicKeysResponse, UserListLongLivedTokensResponse, UserLongLivedToken,
+    UserRefreshTokensRequest, UserRefreshTokensResponse, UserRevokeLongLivedTokenRequest,
+};
 
-pub struct AuthenticationClient<C: hyper::client::Connect> {
-    configuration: Rc<configuration::Configuration<C>>,
+pub struct AuthenticationClient<C: Connect> {
+    configuration: Rc<Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> AuthenticationClient<C> {
-    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> AuthenticationClient<C> {
+impl<C: Connect> AuthenticationClient<C> {
+    pub fn new(configuration: Rc<Configuration<C>>) -> AuthenticationClient<C> {
         AuthenticationClient { configuration }
     }
 }
@@ -21,48 +23,32 @@ impl<C: hyper::client::Connect> AuthenticationClient<C> {
 pub trait Authentication {
     fn public_api_list_jwt_public_keys(
         &self,
-    ) -> Box<
-        dyn Future<
-            Item = crate::models::JwtListJwtPublicKeysResponse,
-            Error = Error<serde_json::Value>,
-        >,
-    >;
+    ) -> Box<dyn Future<Item = JwtListJwtPublicKeysResponse, Error = Error<JsonValue>>>;
+
     fn public_api_refresh_tokens(
         &self,
-        body: crate::models::UserRefreshTokensRequest,
-    ) -> Box<
-        dyn Future<
-            Item = crate::models::UserRefreshTokensResponse,
-            Error = Error<serde_json::Value>,
-        >,
-    >;
+        body: UserRefreshTokensRequest,
+    ) -> Box<dyn Future<Item = UserRefreshTokensResponse, Error = Error<JsonValue>>>;
+
     fn user_api_create_long_lived_token(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::UserLongLivedToken, Error = Error<serde_json::Value>>>;
+    ) -> Box<dyn Future<Item = UserLongLivedToken, Error = Error<JsonValue>>>;
+
     fn user_api_list_long_lived_tokens(
         &self,
-    ) -> Box<
-        dyn Future<
-            Item = crate::models::UserListLongLivedTokensResponse,
-            Error = Error<serde_json::Value>,
-        >,
-    >;
+    ) -> Box<dyn Future<Item = UserListLongLivedTokensResponse, Error = Error<JsonValue>>>;
+    
     fn user_api_revoke_long_lived_token(
         &self,
         token_id: &str,
-        body: crate::models::UserRevokeLongLivedTokenRequest,
-    ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>>;
+        body: UserRevokeLongLivedTokenRequest,
+    ) -> Box<dyn Future<Item = JsonValue, Error = Error<JsonValue>>>;
 }
 
 impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
     fn public_api_list_jwt_public_keys(
         &self,
-    ) -> Box<
-        dyn Future<
-            Item = crate::models::JwtListJwtPublicKeysResponse,
-            Error = Error<serde_json::Value>,
-        >,
-    > {
+    ) -> Box<dyn Future<Item = JwtListJwtPublicKeysResponse, Error = Error<JsonValue>>> {
         let req = __internal_request::Request::new(hyper::Method::Get, "/v1/jwt_keys".to_string())
             .with_auth(__internal_request::Auth::ApiKey(
                 __internal_request::ApiKey {
@@ -77,13 +63,8 @@ impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
 
     fn public_api_refresh_tokens(
         &self,
-        body: crate::models::UserRefreshTokensRequest,
-    ) -> Box<
-        dyn Future<
-            Item = crate::models::UserRefreshTokensResponse,
-            Error = Error<serde_json::Value>,
-        >,
-    > {
+        body: UserRefreshTokensRequest,
+    ) -> Box<dyn Future<Item = UserRefreshTokensResponse, Error = Error<JsonValue>>> {
         let mut req =
             __internal_request::Request::new(hyper::Method::Post, "/v1/token/refresh".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
@@ -100,8 +81,7 @@ impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
 
     fn user_api_create_long_lived_token(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::UserLongLivedToken, Error = Error<serde_json::Value>>>
-    {
+    ) -> Box<dyn Future<Item = UserLongLivedToken, Error = Error<JsonValue>>> {
         let req = __internal_request::Request::new(
             hyper::Method::Post,
             "/v1/profile/long_life_tokens".to_string(),
@@ -119,12 +99,7 @@ impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
 
     fn user_api_list_long_lived_tokens(
         &self,
-    ) -> Box<
-        dyn Future<
-            Item = crate::models::UserListLongLivedTokensResponse,
-            Error = Error<serde_json::Value>,
-        >,
-    > {
+    ) -> Box<dyn Future<Item = UserListLongLivedTokensResponse, Error = Error<JsonValue>>> {
         let req = __internal_request::Request::new(
             hyper::Method::Get,
             "/v1/profile/long_life_tokens".to_string(),
@@ -143,8 +118,8 @@ impl<C: hyper::client::Connect> Authentication for AuthenticationClient<C> {
     fn user_api_revoke_long_lived_token(
         &self,
         token_id: &str,
-        body: crate::models::UserRevokeLongLivedTokenRequest,
-    ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
+        body: UserRevokeLongLivedTokenRequest,
+    ) -> Box<dyn Future<Item = JsonValue, Error = Error<JsonValue>>> {
         let mut req = __internal_request::Request::new(
             hyper::Method::Delete,
             "/v1/profile/long_life_tokens/{tokenId}".to_string(),
