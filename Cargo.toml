@@ -15,5 +15,5 @@ url = "2.3"
 hyper = "~0.11"
 serde_yaml = "0.9"
 base64 = "~0.9.3"
-futures = "0.1.23"
+futures = "0.3.26"
 
