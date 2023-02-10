@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct DataCenterApiClient<C: hyper::client::Connect> {
+pub struct DataCenterApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> DataCenterApiClient<C> {
+impl<C: hyper::client::connect::Connect> DataCenterApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> DataCenterApiClient<C> {
         DataCenterApiClient { configuration }
     }
@@ -29,7 +29,7 @@ pub trait DataCenterApi {
     >;
 }
 
-impl<C: hyper::client::Connect> DataCenterApi for DataCenterApiClient<C> {
+impl<C: hyper::client::connect::Connect> DataCenterApi for DataCenterApiClient<C> {
     fn user_api_list_data_centers(
         &self,
     ) -> Box<
@@ -39,7 +39,7 @@ impl<C: hyper::client::Connect> DataCenterApi for DataCenterApiClient<C> {
         >,
     > {
         let req =
-            __internal_request::Request::new(hyper::Method::Get, "/v1/datacenters".to_string())
+            __internal_request::Request::new(hyper::Method::GET, "/v1/datacenters".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,

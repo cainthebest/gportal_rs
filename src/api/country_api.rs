@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct CountryApiClient<C: hyper::client::Connect> {
+pub struct CountryApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> CountryApiClient<C> {
+impl<C: hyper::client::connect::Connect> CountryApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> CountryApiClient<C> {
         CountryApiClient { configuration }
     }
@@ -29,7 +29,7 @@ pub trait CountryApi {
     >;
 }
 
-impl<C: hyper::client::Connect> CountryApi for CountryApiClient<C> {
+impl<C: hyper::client::connect::Connect> CountryApi for CountryApiClient<C> {
     fn user_api_list_countries(
         &self,
     ) -> Box<
@@ -38,7 +38,7 @@ impl<C: hyper::client::Connect> CountryApi for CountryApiClient<C> {
             Error = Error<serde_json::Value>,
         >,
     > {
-        let req = __internal_request::Request::new(hyper::Method::Get, "/v1/countries".to_string())
+        let req = __internal_request::Request::new(hyper::Method::GET, "/v1/countries".to_string())
             .with_auth(__internal_request::Auth::ApiKey(
                 __internal_request::ApiKey {
                     in_header: true,

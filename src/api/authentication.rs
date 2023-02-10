@@ -1,7 +1,7 @@
 use std::{borrow::Borrow, rc::Rc};
 
 use futures::Future;
-use hyper::client::Connect;
+use hyper::client::connect::Connect;
 use serde_json::Value as JsonValue;
 
 use super::{configuration::Configuration, request as __internal_request, Error};
@@ -49,7 +49,7 @@ impl<C: Connect> Authentication for AuthenticationClient<C> {
     fn list_jwt_public_keys(
         &self,
     ) -> Box<dyn Future<Item = JwtListJwtPublicKeysResponse, Error = Error<JsonValue>>> {
-        let req = __internal_request::Request::new(hyper::Method::Get, "/v1/jwt_keys".to_string())
+        let req = __internal_request::Request::new(hyper::Method::GET, "/v1/jwt_keys".to_string())
             .with_auth(__internal_request::Auth::ApiKey(
                 __internal_request::ApiKey {
                     in_header: true,
@@ -66,7 +66,7 @@ impl<C: Connect> Authentication for AuthenticationClient<C> {
         body: UserRefreshTokensRequest,
     ) -> Box<dyn Future<Item = UserRefreshTokensResponse, Error = Error<JsonValue>>> {
         let mut req =
-            __internal_request::Request::new(hyper::Method::Post, "/v1/token/refresh".to_string())
+            __internal_request::Request::new(hyper::Method::POST, "/v1/token/refresh".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,
@@ -83,7 +83,7 @@ impl<C: Connect> Authentication for AuthenticationClient<C> {
         &self,
     ) -> Box<dyn Future<Item = UserLongLivedToken, Error = Error<JsonValue>>> {
         let req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/profile/long_life_tokens".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -101,7 +101,7 @@ impl<C: Connect> Authentication for AuthenticationClient<C> {
         &self,
     ) -> Box<dyn Future<Item = UserListLongLivedTokensResponse, Error = Error<JsonValue>>> {
         let req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/profile/long_life_tokens".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -121,7 +121,7 @@ impl<C: Connect> Authentication for AuthenticationClient<C> {
         body: UserRevokeLongLivedTokenRequest,
     ) -> Box<dyn Future<Item = JsonValue, Error = Error<JsonValue>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Delete,
+            hyper::Method::DELETE,
             "/v1/profile/long_life_tokens/{tokenId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

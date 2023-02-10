@@ -1,11 +1,12 @@
 use std::borrow::Cow;
 use std::collections::HashMap;
+use std::pin::Pin;
 
 use super::{configuration, Error};
 use futures;
 use futures::{Future, Stream};
 use hyper;
-use hyper::header::UserAgent;
+use hyper::header::USER_AGENT;
 use serde;
 use serde_json;
 
@@ -83,7 +84,7 @@ impl Request {
         conf: &configuration::Configuration<C>,
     ) -> Box<dyn Future<Item = U, Error = Error<serde_json::Value>> + 'a>
     where
-        C: hyper::client::Connect,
+        C: hyper::client::connect::Connect,
         U: Sized + 'a,
         for<'de> U: serde::Deserialize<'de>,
     {
@@ -91,7 +92,7 @@ impl Request {
         // raw_headers is for headers we don't know the proper type of (e.g. custom api key
         // headers); headers is for ones we do know the type of.
         let mut raw_headers = HashMap::new();
-        let mut headers: hyper::header::Headers = hyper::header::Headers::new();
+        let mut headers: hyper::header::HeaderMap = hyper::header::HeaderMap::new();
 
         let mut path = self.path;
         for (k, v) in self.path_params {
@@ -121,7 +122,7 @@ impl Request {
             }
             Auth::Basic => {
                 if let Some(ref auth_conf) = conf.basic_auth {
-                    let auth = hyper::header::Authorization(hyper::header::Basic {
+                    let auth = hyper::header::AUTHORIZATION(hyper::header::Basic {
                         username: auth_conf.0.to_owned(),
                         password: auth_conf.1.to_owned(),
                     });
@@ -168,7 +169,7 @@ impl Request {
         }
 
         if let Some(body) = self.serialized_body {
-            req.headers_mut().set(hyper::header::ContentType::json());
+            Pin::new(req.headers_mut()).set(hyper::header::CONTENT_TYPE);
             req.headers_mut()
                 .set(hyper::header::ContentLength(body.len() as u64));
             req.set_body(body);

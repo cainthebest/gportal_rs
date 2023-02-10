@@ -9,11 +9,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct UserApiClient<C: hyper::client::Connect> {
+pub struct UserApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> UserApiClient<C> {
+impl<C: hyper::client::connect::Connect> UserApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> UserApiClient<C> {
         UserApiClient { configuration }
     }
@@ -103,14 +103,14 @@ pub trait UserApi {
     >;
 }
 
-impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
+impl<C: hyper::client::connect::Connect> UserApi for UserApiClient<C> {
     fn public_api_login(
         &self,
         body: crate::models::UserLoginRequest,
     ) -> Box<dyn Future<Item = crate::models::UserLoginResponse, Error = Error<serde_json::Value>>>
     {
         let mut req =
-            __internal_request::Request::new(hyper::Method::Post, "/v1/users/login".to_string())
+            __internal_request::Request::new(hyper::Method::POST, "/v1/users/login".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,
@@ -129,7 +129,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::UserRegisterResponse, Error = Error<serde_json::Value>>>
     {
         let mut req =
-            __internal_request::Request::new(hyper::Method::Post, "/v1/users/register".to_string())
+            __internal_request::Request::new(hyper::Method::POST, "/v1/users/register".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,
@@ -147,7 +147,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         body: crate::models::UserRequestPasswordForgottenTokenRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/users/recovery/password/token".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -167,7 +167,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         body: crate::models::UserResetUserPasswordRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/users/recovery/password/reset".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -192,7 +192,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/profile/webauthn/register".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -214,7 +214,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         body: crate::models::UserChangeUserPasswordRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/profile/password".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -234,7 +234,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         body: crate::models::UserConfirmEMailRequest,
     ) -> Box<dyn Future<Item = crate::models::ApiuserUser, Error = Error<serde_json::Value>>> {
         let mut req =
-            __internal_request::Request::new(hyper::Method::Post, "/v1/user/confirm".to_string())
+            __internal_request::Request::new(hyper::Method::POST, "/v1/user/confirm".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,
@@ -253,7 +253,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         body: crate::models::UserDeleteSessionRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Delete,
+            hyper::Method::DELETE,
             "/v1/profile/sessions/{sessionId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -275,7 +275,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         body: crate::models::UserDeleteWebAuthnDeviceRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Delete,
+            hyper::Method::DELETE,
             "/v1/profile/webauthn/{id}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -301,7 +301,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/profile/webauthn/register".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -320,7 +320,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         &self,
     ) -> Box<dyn Future<Item = crate::models::UserGetUserResponse, Error = Error<serde_json::Value>>>
     {
-        let req = __internal_request::Request::new(hyper::Method::Get, "/v1/user".to_string())
+        let req = __internal_request::Request::new(hyper::Method::GET, "/v1/user".to_string())
             .with_auth(__internal_request::Auth::ApiKey(
                 __internal_request::ApiKey {
                     in_header: true,
@@ -341,7 +341,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         >,
     > {
         let req =
-            __internal_request::Request::new(hyper::Method::Get, "/v1/user/limit".to_string())
+            __internal_request::Request::new(hyper::Method::GET, "/v1/user/limit".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,
@@ -362,7 +362,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         >,
     > {
         let req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/profile/sessions".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -381,7 +381,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
         body: serde_json::Value,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/user/confirm/email".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -402,7 +402,7 @@ impl<C: hyper::client::Connect> UserApi for UserApiClient<C> {
     ) -> Box<
         dyn Future<Item = crate::models::UserUpdateUserResponse, Error = Error<serde_json::Value>>,
     > {
-        let mut req = __internal_request::Request::new(hyper::Method::Put, "/v1/user".to_string())
+        let mut req = __internal_request::Request::new(hyper::Method::PUT, "/v1/user".to_string())
             .with_auth(__internal_request::Auth::ApiKey(
                 __internal_request::ApiKey {
                     in_header: true,

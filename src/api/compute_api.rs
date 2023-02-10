@@ -9,11 +9,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct ComputeApiClient<C: hyper::client::Connect> {
+pub struct ComputeApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> ComputeApiClient<C> {
+impl<C: hyper::client::connect::Connect> ComputeApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> ComputeApiClient<C> {
         ComputeApiClient { configuration }
     }
@@ -130,7 +130,7 @@ pub trait ComputeApi {
     >;
 }
 
-impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
+impl<C: hyper::client::connect::Connect> ComputeApi for ComputeApiClient<C> {
     fn user_api_change_compute_resource_billing_period(
         &self,
         project_id: &str,
@@ -140,7 +140,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         dyn Future<Item = crate::models::ComputeComputeResource, Error = Error<serde_json::Value>>,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/compute/{resourceId}/billing_period".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -166,7 +166,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         dyn Future<Item = crate::models::ComputeComputeResource, Error = Error<serde_json::Value>>,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/compute/{resourceId}/renew".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -190,7 +190,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         body: crate::models::ComputeComputeResourceRescueModeRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/compute/{resourceId}/rescue".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -218,7 +218,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/compute".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -241,7 +241,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         body: crate::models::ComputeDestroyComputeResourceRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Delete,
+            hyper::Method::DELETE,
             "/v1/projects/{projectId}/compute/{resourceId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -266,7 +266,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         dyn Future<Item = crate::models::ComputeComputeResource, Error = Error<serde_json::Value>>,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/compute/{resourceId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -293,7 +293,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/compute/{resourceId}/console".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -320,7 +320,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/compute/{resourceId}/pricing".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -347,7 +347,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/compute/{resourceId}/traffic".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -375,7 +375,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/compute".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -403,7 +403,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         body: crate::models::ComputePowerActionComputeResourceRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/compute/{resourceId}/power".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -429,7 +429,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         dyn Future<Item = crate::models::ComputeComputeResource, Error = Error<serde_json::Value>>,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/compute/{resourceId}/reinstall".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -455,7 +455,7 @@ impl<C: hyper::client::Connect> ComputeApi for ComputeApiClient<C> {
         dyn Future<Item = crate::models::ComputeComputeResource, Error = Error<serde_json::Value>>,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Put,
+            hyper::Method::PUT,
             "/v1/projects/{projectId}/compute/{resourceId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

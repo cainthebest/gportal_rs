@@ -8,17 +8,17 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct BillingApiClient<C: hyper::client::connect::Connect> {
+pub struct BillingClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect> BillingApiClient<C> {
-    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> BillingApiClient<C> {
-        BillingApiClient { configuration }
+impl<C: hyper::client::connect::Connect> BillingClient<C> {
+    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> BillingClient<C> {
+        BillingClient { configuration }
     }
 }
 
-pub trait BillingApi {
+pub trait Billing {
     fn user_api_create_billing_address(
         &self,
         body: crate::models::PaymentCreateBillingAddressRequest,
@@ -108,7 +108,7 @@ pub trait BillingApi {
     >;
 }
 
-impl<C: hyper::client::connect::Connect> BillingApi for BillingApiClient<C> {
+impl<C: hyper::client::connect::Connect> Billing for BillingClient<C> {
     fn user_api_create_billing_address(
         &self,
         body: crate::models::PaymentCreateBillingAddressRequest,

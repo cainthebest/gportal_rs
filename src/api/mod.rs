@@ -4,7 +4,6 @@ use serde_json;
 
 #[derive(Debug)]
 pub enum Error<T> {
-    UriError(hyper::error::UriError),
     Hyper(hyper::Error),
     Serde(serde_json::Error),
     ApiError(ApiError<T>),

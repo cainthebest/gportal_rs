@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct FlavourApiClient<C: hyper::client::Connect> {
+pub struct FlavourApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> FlavourApiClient<C> {
+impl<C: hyper::client::connect::Connect> FlavourApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> FlavourApiClient<C> {
         FlavourApiClient { configuration }
     }
@@ -31,7 +31,7 @@ pub trait FlavourApi {
     >;
 }
 
-impl<C: hyper::client::Connect> FlavourApi for FlavourApiClient<C> {
+impl<C: hyper::client::connect::Connect> FlavourApi for FlavourApiClient<C> {
     fn user_api_get_project_flavours(
         &self,
         project_id: &str,
@@ -43,7 +43,7 @@ impl<C: hyper::client::Connect> FlavourApi for FlavourApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/flavours/{datacenterId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct TwoFactorTOTPApiClient<C: hyper::client::Connect> {
+pub struct TwoFactorTOTPApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> TwoFactorTOTPApiClient<C> {
+impl<C: hyper::client::connect::Connect> TwoFactorTOTPApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> TwoFactorTOTPApiClient<C> {
         TwoFactorTOTPApiClient { configuration }
     }
@@ -34,13 +34,13 @@ pub trait TwoFactorTOTPApi {
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>>;
 }
 
-impl<C: hyper::client::Connect> TwoFactorTOTPApi for TwoFactorTOTPApiClient<C> {
+impl<C: hyper::client::connect::Connect> TwoFactorTOTPApi for TwoFactorTOTPApiClient<C> {
     fn user_api_add_totp(
         &self,
         body: crate::models::UserAddTotpRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req =
-            __internal_request::Request::new(hyper::Method::Post, "/v1/profile/totp".to_string())
+            __internal_request::Request::new(hyper::Method::POST, "/v1/profile/totp".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,
@@ -59,7 +59,7 @@ impl<C: hyper::client::Connect> TwoFactorTOTPApi for TwoFactorTOTPApiClient<C> {
         dyn Future<Item = crate::models::UserCreateTotpResponse, Error = Error<serde_json::Value>>,
     > {
         let req =
-            __internal_request::Request::new(hyper::Method::Get, "/v1/profile/totp".to_string())
+            __internal_request::Request::new(hyper::Method::GET, "/v1/profile/totp".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,
@@ -76,7 +76,7 @@ impl<C: hyper::client::Connect> TwoFactorTOTPApi for TwoFactorTOTPApiClient<C> {
         body: crate::models::UserRemoveTotpRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req =
-            __internal_request::Request::new(hyper::Method::Delete, "/v1/profile/totp".to_string())
+            __internal_request::Request::new(hyper::Method::DELETE, "/v1/profile/totp".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,

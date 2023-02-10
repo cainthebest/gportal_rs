@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct ImageApiClient<C: hyper::client::Connect> {
+pub struct ImageApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> ImageApiClient<C> {
+impl<C: hyper::client::connect::Connect> ImageApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> ImageApiClient<C> {
         ImageApiClient { configuration }
     }
@@ -58,7 +58,7 @@ pub trait ImageApi {
     >;
 }
 
-impl<C: hyper::client::Connect> ImageApi for ImageApiClient<C> {
+impl<C: hyper::client::connect::Connect> ImageApi for ImageApiClient<C> {
     fn user_api_create_project_image(
         &self,
         project_id: &str,
@@ -66,7 +66,7 @@ impl<C: hyper::client::Connect> ImageApi for ImageApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::ApiimageImage, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/images".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -89,7 +89,7 @@ impl<C: hyper::client::Connect> ImageApi for ImageApiClient<C> {
         body: crate::models::ImageDeleteProjectImageRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/images/{imageId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -113,7 +113,7 @@ impl<C: hyper::client::Connect> ImageApi for ImageApiClient<C> {
         body: crate::models::ImageDeleteProjectImageVersionRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/images/version/{imageVersionId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -137,7 +137,7 @@ impl<C: hyper::client::Connect> ImageApi for ImageApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::ApiimageImage, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/images/{imageId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -163,7 +163,7 @@ impl<C: hyper::client::Connect> ImageApi for ImageApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/images".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -185,7 +185,7 @@ impl<C: hyper::client::Connect> ImageApi for ImageApiClient<C> {
         dyn Future<Item = crate::models::ImageListImagesResponse, Error = Error<serde_json::Value>>,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/images/{flavourId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

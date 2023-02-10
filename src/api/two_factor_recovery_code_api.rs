@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct TwoFactorRecoveryCodeApiClient<C: hyper::client::Connect> {
+pub struct TwoFactorRecoveryCodeApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> TwoFactorRecoveryCodeApiClient<C> {
+impl<C: hyper::client::connect::Connect> TwoFactorRecoveryCodeApiClient<C> {
     pub fn new(
         configuration: Rc<configuration::Configuration<C>>,
     ) -> TwoFactorRecoveryCodeApiClient<C> {
@@ -32,7 +32,7 @@ pub trait TwoFactorRecoveryCodeApi {
     >;
 }
 
-impl<C: hyper::client::Connect> TwoFactorRecoveryCodeApi for TwoFactorRecoveryCodeApiClient<C> {
+impl<C: hyper::client::connect::Connect> TwoFactorRecoveryCodeApi for TwoFactorRecoveryCodeApiClient<C> {
     fn user_api_regenerate_recovery_codes(
         &self,
         body: crate::models::UserRegenerateRecoveryCodesRequest,
@@ -43,7 +43,7 @@ impl<C: hyper::client::Connect> TwoFactorRecoveryCodeApi for TwoFactorRecoveryCo
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/profile/recovery_codes".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

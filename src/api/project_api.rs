@@ -9,11 +9,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct ProjectApiClient<C: hyper::client::Connect> {
+pub struct ProjectApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> ProjectApiClient<C> {
+impl<C: hyper::client::connect::Connect> ProjectApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> ProjectApiClient<C> {
         ProjectApiClient { configuration }
     }
@@ -107,7 +107,7 @@ pub trait ProjectApi {
     ) -> Box<dyn Future<Item = crate::models::ProjectProject, Error = Error<serde_json::Value>>>;
 }
 
-impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
+impl<C: hyper::client::connect::Connect> ProjectApi for ProjectApiClient<C> {
     fn user_api_change_default_project(
         &self,
         project_id: &str,
@@ -115,7 +115,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::ProjectProject, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/default".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -137,7 +137,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::ProjectProject, Error = Error<serde_json::Value>>>
     {
         let mut req =
-            __internal_request::Request::new(hyper::Method::Post, "/v1/projects".to_string())
+            __internal_request::Request::new(hyper::Method::POST, "/v1/projects".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,
@@ -155,7 +155,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
         project_id: &str,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Delete,
+            hyper::Method::DELETE,
             "/v1/projects/{projectId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -176,7 +176,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::ProjectProject, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -204,7 +204,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/logs".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -238,7 +238,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/traffic".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -264,7 +264,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/members".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -286,7 +286,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
         body: crate::models::ProjectJoinProjectRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/join".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -308,7 +308,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
         body: crate::models::ProjectLeaveProjectRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/leave".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -334,7 +334,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/ssh_keys".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -357,7 +357,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
             Error = Error<serde_json::Value>,
         >,
     > {
-        let req = __internal_request::Request::new(hyper::Method::Get, "/v1/projects".to_string())
+        let req = __internal_request::Request::new(hyper::Method::GET, "/v1/projects".to_string())
             .with_auth(__internal_request::Auth::ApiKey(
                 __internal_request::ApiKey {
                     in_header: true,
@@ -375,7 +375,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
         user_id: &str,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Delete,
+            hyper::Method::DELETE,
             "/v1/projects/{projectId}/members/{userId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -398,7 +398,7 @@ impl<C: hyper::client::Connect> ProjectApi for ProjectApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::ProjectProject, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Put,
+            hyper::Method::PUT,
             "/v1/projects/{projectId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

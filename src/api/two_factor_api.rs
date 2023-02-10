@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct TwoFactorApiClient<C: hyper::client::Connect> {
+pub struct TwoFactorApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> TwoFactorApiClient<C> {
+impl<C: hyper::client::connect::Connect> TwoFactorApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> TwoFactorApiClient<C> {
         TwoFactorApiClient { configuration }
     }
@@ -29,7 +29,7 @@ pub trait TwoFactorApi {
     >;
 }
 
-impl<C: hyper::client::Connect> TwoFactorApi for TwoFactorApiClient<C> {
+impl<C: hyper::client::connect::Connect> TwoFactorApi for TwoFactorApiClient<C> {
     fn user_api_get_two_factor_methods(
         &self,
     ) -> Box<
@@ -39,7 +39,7 @@ impl<C: hyper::client::Connect> TwoFactorApi for TwoFactorApiClient<C> {
         >,
     > {
         let req =
-            __internal_request::Request::new(hyper::Method::Get, "/v1/profile/2fa".to_string())
+            __internal_request::Request::new(hyper::Method::GET, "/v1/profile/2fa".to_string())
                 .with_auth(__internal_request::Auth::ApiKey(
                     __internal_request::ApiKey {
                         in_header: true,

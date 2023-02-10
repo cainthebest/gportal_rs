@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct SSHKeyApiClient<C: hyper::client::Connect> {
+pub struct SSHKeyApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> SSHKeyApiClient<C> {
+impl<C: hyper::client::connect::Connect> SSHKeyApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> SSHKeyApiClient<C> {
         SSHKeyApiClient { configuration }
     }
@@ -37,14 +37,14 @@ pub trait SSHKeyApi {
     >;
 }
 
-impl<C: hyper::client::Connect> SSHKeyApi for SSHKeyApiClient<C> {
+impl<C: hyper::client::connect::Connect> SSHKeyApi for SSHKeyApiClient<C> {
     fn user_api_create_user_ssh_key(
         &self,
         body: crate::models::UserCreateUserSshKeyRequest,
     ) -> Box<dyn Future<Item = crate::models::SecuritySshKey, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/profile/ssh_keys".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -64,7 +64,7 @@ impl<C: hyper::client::Connect> SSHKeyApi for SSHKeyApiClient<C> {
         ssh_key_id: &str,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Delete,
+            hyper::Method::DELETE,
             "/v1/profile/ssh_keys/{sshKeyId}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -88,7 +88,7 @@ impl<C: hyper::client::Connect> SSHKeyApi for SSHKeyApiClient<C> {
         >,
     > {
         let req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/profile/ssh_keys".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

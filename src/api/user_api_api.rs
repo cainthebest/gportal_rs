@@ -9,11 +9,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct UserAPIApiClient<C: hyper::client::Connect> {
+pub struct UserAPIApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> UserAPIApiClient<C> {
+impl<C: hyper::client::connect::Connect> UserAPIApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> UserAPIApiClient<C> {
         UserAPIApiClient { configuration }
     }
@@ -31,7 +31,7 @@ pub trait UserAPIApi {
     >;
 }
 
-impl<C: hyper::client::Connect> UserAPIApi for UserAPIApiClient<C> {
+impl<C: hyper::client::connect::Connect> UserAPIApi for UserAPIApiClient<C> {
     fn user_api_subscribe_project_notifications(
         &self,
         project_ids: Option<Vec<String>>,
@@ -42,7 +42,7 @@ impl<C: hyper::client::Connect> UserAPIApi for UserAPIApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/notifications".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

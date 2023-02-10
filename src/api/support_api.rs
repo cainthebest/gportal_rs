@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct SupportApiClient<C: hyper::client::Connect> {
+pub struct SupportApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> SupportApiClient<C> {
+impl<C: hyper::client::connect::Connect> SupportApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> SupportApiClient<C> {
         SupportApiClient { configuration }
     }
@@ -67,7 +67,7 @@ pub trait SupportApi {
     >;
 }
 
-impl<C: hyper::client::Connect> SupportApi for SupportApiClient<C> {
+impl<C: hyper::client::connect::Connect> SupportApi for SupportApiClient<C> {
     fn user_api_add_project_support_ticket_comment(
         &self,
         project_id: &str,
@@ -76,7 +76,7 @@ impl<C: hyper::client::Connect> SupportApi for SupportApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::SupportSupportTicket, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Put,
+            hyper::Method::PUT,
             "/v1/projects/{projectId}/support/tickets/{id}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -100,7 +100,7 @@ impl<C: hyper::client::Connect> SupportApi for SupportApiClient<C> {
         body: crate::models::SupportChangeProjectSupportPackageRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/support/plans/{plan}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -124,7 +124,7 @@ impl<C: hyper::client::Connect> SupportApi for SupportApiClient<C> {
         body: crate::models::SupportCloseProjectSupportTicketRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Put,
+            hyper::Method::PUT,
             "/v1/projects/{projectId}/support/tickets/{id}/close".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -148,7 +148,7 @@ impl<C: hyper::client::Connect> SupportApi for SupportApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::SupportSupportTicket, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/support/tickets".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -171,7 +171,7 @@ impl<C: hyper::client::Connect> SupportApi for SupportApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::SupportSupportTicket, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/support/tickets/{id}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -197,7 +197,7 @@ impl<C: hyper::client::Connect> SupportApi for SupportApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/support/plans".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -222,7 +222,7 @@ impl<C: hyper::client::Connect> SupportApi for SupportApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/support/tickets".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(

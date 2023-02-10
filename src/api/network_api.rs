@@ -8,11 +8,11 @@ use serde_json;
 use super::request as __internal_request;
 use super::{configuration, Error};
 
-pub struct NetworkApiClient<C: hyper::client::Connect> {
+pub struct NetworkApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> NetworkApiClient<C> {
+impl<C: hyper::client::connect::Connect> NetworkApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> NetworkApiClient<C> {
         NetworkApiClient { configuration }
     }
@@ -59,7 +59,7 @@ pub trait NetworkApi {
     ) -> Box<dyn Future<Item = crate::models::NetworkSubnet, Error = Error<serde_json::Value>>>;
 }
 
-impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
+impl<C: hyper::client::connect::Connect> NetworkApi for NetworkApiClient<C> {
     fn user_api_create_project_network_subnet(
         &self,
         project_id: &str,
@@ -68,7 +68,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::NetworkSubnet, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Post,
+            hyper::Method::POST,
             "/v1/projects/{projectId}/networks/{id}/subnet".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -92,7 +92,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
         body: crate::models::NetworkDeleteProjectNetworkSubnetRequest,
     ) -> Box<dyn Future<Item = serde_json::Value, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Delete,
+            hyper::Method::DELETE,
             "/v1/projects/{projectId}/subnet/{id}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -116,7 +116,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::NetworkNetwork, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/networks/{id}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -142,7 +142,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
         >,
     > {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Get,
+            hyper::Method::GET,
             "/v1/projects/{projectId}/networks".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -165,7 +165,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::NetworkNetwork, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Put,
+            hyper::Method::PUT,
             "/v1/projects/{projectId}/networks/{id}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
@@ -190,7 +190,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
     ) -> Box<dyn Future<Item = crate::models::NetworkSubnet, Error = Error<serde_json::Value>>>
     {
         let mut req = __internal_request::Request::new(
-            hyper::Method::Put,
+            hyper::Method::PUT,
             "/v1/projects/{projectId}/subnet/{id}".to_string(),
         )
         .with_auth(__internal_request::Auth::ApiKey(
