@@ -1,0 +1,190 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "gpcloud/api/cloud/v1/flavour.proto";
+import "gpcloud/api/cloud/v1/bill.proto";
+import "gpcloud/api/cloud/v1/project.proto";
+import "gpcloud/api/cloud/v1/notification.proto";
+import "gpcloud/api/cloud/v1/spla.proto";
+import "gpcloud/api/cloud/v1/region.proto";
+import "gpcloud/api/cloud/v1/node.proto";
+import "gpcloud/api/cloud/v1/image.proto";
+import "gpcloud/api/cloud/v1/billing.proto";
+import "gpcloud/type/v1/country.proto";
+import "gpcloud/type/v1/ssh_key.proto";
+import "gpcloud/type/v1/price.proto";
+
+message GetUserNodeLimitResponse {
+  gpcloud.api.cloud.v1.UserNodeLimit user_limit = 1;
+}
+
+message ListProjectFlavoursResponse {
+  repeated gpcloud.api.cloud.v1.Flavour flavours = 1;
+}
+
+message GetProjectSplaPriceResponse {
+  gpcloud.api.cloud.v1.SplaPrice price = 1;
+}
+message CreateProjectResponse {
+  Project project = 1;
+}
+
+message ChangeDefaultProjectResponse {
+}
+
+message GetProjectResponse {
+  Project project = 1;
+}
+
+message ListProjectLogsResponse {
+  // All log items for page
+  repeated gpcloud.api.cloud.v1.ProjectLog logs = 1;
+
+  // Number of pages available
+  int32 pages_total = 2;
+}
+
+message UpdateProjectResponse {
+  Project project = 1;
+}
+
+
+message JoinProjectResponse {
+
+}
+
+message LeaveProjectResponse {
+}
+
+message InviteMemberToProjectResponse {
+  ProjectMember member = 1;
+}
+
+message RemoveMemberFromProjectResponse {
+
+}
+
+message ListProjectsResponse {
+  repeated Project projects = 1;
+
+  repeated gpcloud.api.cloud.v1.ProjectInvite invites = 2;
+}
+
+message DeleteProjectResponse {}
+
+message GetProjectCurrentBillingPreviewPdfResponse {
+  string download_url = 1;
+}
+
+message GetProjectBillPdfResponse {
+  string download_url = 1;
+}
+
+message PayProjectNowResponse {}
+
+message ListCountriesResponse {
+  repeated gpcloud.type.v1.Country countries = 1;
+}
+
+message GetProjectCurrentBillingPreviewResponse {
+  gpcloud.api.cloud.v1.Bill bill = 1;
+}
+
+message ListDatacentersResponse {
+  repeated gpcloud.api.cloud.v1.Datacenter datacenters = 1;
+}
+
+message ListPublicImagesResponse {
+  repeated gpcloud.api.cloud.v1.Image images = 1;
+}
+
+message ListProjectBillsResponse {
+  repeated gpcloud.api.cloud.v1.Bill bills = 1;
+
+  repeated int32 years = 2;
+}
+
+message GetProjectsOutstandingBalanceResponse {
+  repeated gpcloud.api.cloud.v1.OutstandingBalance balances = 1;
+
+  gpcloud.type.v1.Price total = 2;
+}
+
+message ListProjectSSHKeysResponse {
+  repeated ProjectSSHKey keys = 1;
+}
+
+message ListNodesResponse {
+  repeated gpcloud.api.cloud.v1.Node nodes = 1;
+}
+
+message CreateNodeResponse {
+  repeated gpcloud.api.cloud.v1.Node nodes = 1;
+}
+
+message GetNodeResponse {
+  gpcloud.api.cloud.v1.Node node = 1;
+}
+
+message UpdateNodeResponse {
+  gpcloud.api.cloud.v1.Node node = 1;
+}
+
+message DestroyNodeResponse {}
+
+message ReinstallNodeResponse {
+  gpcloud.api.cloud.v1.Node node = 1;
+}
+
+message ChangeNodeRenewStateResponse {
+  gpcloud.api.cloud.v1.Node node = 1;
+}
+
+message PowerActionNodeResponse {}
+
+message GetNodePricingResponse {
+  gpcloud.type.v1.Price current_price = 1;
+  gpcloud.api.cloud.v1.BillingPeriod current_billing_period = 2;
+
+  gpcloud.type.v1.Price new_monthly_pricing = 3;
+  gpcloud.type.v1.Price new_hourly_pricing = 4;
+}
+
+message SubscribeNotificationsResponse {
+  gpcloud.api.cloud.v1.Notification notification = 1;
+}
+
+message ChangeNodeBillingPeriodResponse {
+  gpcloud.api.cloud.v1.Node node = 1;
+}
+
+message GetNodeConsoleResponse {
+  string password = 1;
+}
+
+message ChangeNodeRescueModeResponse {}
+
+message ListProjectImagesResponse {
+  repeated gpcloud.api.cloud.v1.Image images = 1;
+}
+
+message CreateProjectImageResponse {
+  gpcloud.api.cloud.v1.Image image = 1;
+}
+
+message GetProjectImageResponse {
+  gpcloud.api.cloud.v1.Image image = 1;
+}
+
+message DeleteProjectImageResponse {}
+message DeleteProjectImageVersionResponse {}
+
+message ListUserSSHKeysResponse {
+  repeated gpcloud.type.v1.SSHKey ssh_keys = 1;
+}
+
+message CreateUserSSHKeyResponse {
+  gpcloud.type.v1.SSHKey ssh_key = 1;
+}
+message DeleteUserSSHKeyResponse {}

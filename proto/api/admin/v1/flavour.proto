@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package gpcloud.api.admin.v1;
+
+import "gpcloud/api/cloud/v1/flavour.proto";
+
+message AdminFlavour {
+  string id = 1;
+  string name = 2;
+
+  string cpu = 3;
+  int32 cpu_amount = 4;
+  int32 cpu_cores = 5;
+  int32 cpu_threads = 6;
+
+  string memory = 7;
+  string disk = 8;
+  string network = 9;
+  int64 traffic = 10; // Traffic given in GB/month
+
+  repeated gpcloud.api.cloud.v1.FlavourMapping mappings = 13;
+}

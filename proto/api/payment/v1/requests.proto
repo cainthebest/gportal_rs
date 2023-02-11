@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package gpcloud.api.payment.v1;
+
+import "gpcloud/api/cloud/v1/payment.proto";
+
+message ListCreditCardsRequest {}
+
+message AddCreditCardRequest {
+  string holder = 1;
+
+  string number = 2;
+  string expiry_month = 3;
+  string expiry_year = 4;
+  string cvc = 5;
+
+  gpcloud.api.cloud.v1.CreditCardType type = 6;
+}
+
+message DeleteCreditCardRequest {
+  string id = 1;
+}
+
+message CreateBillingAddressRequest {
+  string name = 1;
+  optional string company = 2;
+  optional string vat_id = 3;
+
+  string country_code = 4;
+  string state = 5;
+  string street = 6;
+  string city = 7;
+  string postcode = 8;
+
+  string billing_email = 9;
+}
+
+message UpdateBillingAddressRequest {
+  string id = 1;
+  string name = 2;
+  optional string company = 3;
+  optional string vat_id = 4;
+
+  string country_code = 5;
+  string state = 6;
+
+  string street = 7;
+  string city = 8;
+  string postcode = 9;
+
+  string billing_email = 10;
+}
+
+message ListBillingAddressesRequest {}
+
+message DeleteBillingAddressRequest {
+  string id = 1;
+}

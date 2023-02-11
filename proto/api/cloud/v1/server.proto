@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcloud/api/cloud/v1/user.proto";
+import "gpcloud/api/cloud/v1/region.proto";
+import "gpcloud/api/cloud/v1/flavour.proto";
+import "gpcloud/api/cloud/v1/network.proto";
+import "gpcloud/api/cloud/v1/switch.proto";
+
+enum ServerStatus {
+  SERVER_STATUS_UNSPECIFIED = 0;
+  SERVER_STATUS_IMPORTING = 1;
+  SERVER_STATUS_IMPORTED = 2;
+  SERVER_STATUS_DELETING = 3;
+}
+
+enum PlatformManagementType {
+  PLATFORM_MANAGEMENT_TYPE_UNSPECIFIED = 0;
+  PLATFORM_MANAGEMENT_TYPE_IDRAC8 = 1;
+  PLATFORM_MANAGEMENT_TYPE_IDRAC9 = 2;
+  PLATFORM_MANAGEMENT_TYPE_ILO5 = 3;
+}
+
+enum ServerPowerState {
+  SERVER_POWER_STATE_UNSPECIFIED = 0;
+  SERVER_POWER_STATE_ON = 1;
+  SERVER_POWER_STATE_OFF = 2;
+  SERVER_POWER_STATE_RESET = 3;
+}
+
+enum ServerProvisioningState {
+  SERVER_PROVISIONING_STATE_UNSPECIFIED = 0;
+  SERVER_PROVISIONING_STATE_ENROLL = 1;
+  SERVER_PROVISIONING_STATE_VERIFYING = 2;
+  SERVER_PROVISIONING_STATE_MANAGEABLE = 3;
+  SERVER_PROVISIONING_STATE_AVAILABLE = 4;
+  SERVER_PROVISIONING_STATE_ACTIVE = 5;
+  SERVER_PROVISIONING_STATE_DEPLOY_WAIT = 6;
+  SERVER_PROVISIONING_STATE_DEPLOYING = 7;
+  SERVER_PROVISIONING_STATE_DEPLOY_FAIL = 8;
+  SERVER_PROVISIONING_STATE_DEPLOY_DONE = 9;
+  SERVER_PROVISIONING_STATE_DELETING = 10;
+  SERVER_PROVISIONING_STATE_DELETED = 11;
+  SERVER_PROVISIONING_STATE_CLEANING = 12;
+  SERVER_PROVISIONING_STATE_CLEAN_WAIT = 13;
+  SERVER_PROVISIONING_STATE_CLEAN_FAIL = 14;
+  SERVER_PROVISIONING_STATE_ERROR = 15;
+  SERVER_PROVISIONING_STATE_REBUILD = 16;
+  SERVER_PROVISIONING_STATE_INSPECTING = 17;
+  SERVER_PROVISIONING_STATE_INSPECT_FAIL = 18;
+  SERVER_PROVISIONING_STATE_INSPECT_WAIT = 19;
+  SERVER_PROVISIONING_STATE_ADOPTING = 20;
+  SERVER_PROVISIONING_STATE_ADOPT_FAIL = 21;
+  SERVER_PROVISIONING_STATE_RESCUE = 22;
+  SERVER_PROVISIONING_STATE_RESCUE_FAIL = 23;
+  SERVER_PROVISIONING_STATE_RESCUING = 24;
+  SERVER_PROVISIONING_STATE_UNRESCUE_FAIL = 25;
+  SERVER_PROVISIONING_STATE_RESCUE_WAIT = 26;
+  SERVER_PROVISIONING_STATE_UNRESCUING = 27;
+}
+
+message PlatformManagement {
+  PlatformManagementType type = 1;
+
+  string ip = 2;
+  string username = 3;
+  string password = 4;
+
+  string vnc_password = 5;
+  int32 vnc_port = 6;
+
+  bool online = 7;
+
+  string server_id = 8;
+}
+
+message ServerInterface {
+  string id = 1;
+
+  gpcloud.api.cloud.v1.NetworkType type = 2;
+
+  string mac_address = 3;
+  string driver = 4;
+
+  int32 speed = 5;
+
+  repeated gpcloud.api.cloud.v1.IPAddress ips = 6;
+
+  // Server ID
+  string server_id = 7;
+
+  // Switch
+  gpcloud.api.cloud.v1.Switch switch = 8;
+  string switch_port = 9;
+
+  // ServerInterface timestamps
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+message Server {
+  string id = 1;
+
+  string name = 2;
+
+  gpcloud.api.cloud.v1.Datacenter datacenter = 3;
+
+  string netbox_link = 4;
+  optional string ironic_id = 5;
+
+  gpcloud.api.cloud.v1.Flavour flavour = 6;
+
+  gpcloud.api.cloud.v1.ServerStatus status = 7;
+
+  repeated gpcloud.api.cloud.v1.ServerInterface interfaces = 8;
+
+  gpcloud.api.cloud.v1.PlatformManagementType platform_management_type = 9;
+
+  bool in_pool = 10;
+  bool has_vnc_console = 11;
+
+  gpcloud.api.cloud.v1.ServerPowerState power_state = 12;
+  gpcloud.api.cloud.v1.ServerProvisioningState provision_state = 13;
+
+  bool in_use = 14;
+
+  optional string last_error = 15;
+
+  google.protobuf.Timestamp last_inspection_at = 996;
+  google.protobuf.Timestamp status_updated_at = 997;
+  google.protobuf.Timestamp provision_state_changed_at = 998;
+  google.protobuf.Timestamp last_sync_at = 999;
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+enum ServerLogLevelType {
+  SERVER_LOG_LEVEL_TYPE_UNSPECIFIED = 0;
+  SERVER_LOG_LEVEL_TYPE_INFO = 1;
+  SERVER_LOG_LEVEL_TYPE_WARNING= 2;
+  SERVER_LOG_LEVEL_TYPE_ERROR = 3;
+}
+
+enum ServerLogSourceType {
+  SERVER_LOG_SOURCE_TYPE_UNSPECIFIED = 0;
+  SERVER_LOG_SOURCE_TYPE_INTERNAL = 1;
+  SERVER_LOG_SOURCE_TYPE_METADATA = 2;
+  SERVER_LOG_SOURCE_TYPE_IRONIC = 3;
+}
+
+message ServerLog {
+  string id = 1;
+
+  string message = 2;
+
+  ServerLogLevelType level = 3;
+
+  ServerLogSourceType source = 4;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message IPHistory {
+  string id = 1;
+
+  string ip_address = 2;
+
+  gpcloud.api.cloud.v1.BasicUser user = 3;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+  google.protobuf.Timestamp deleted_at = 1002;
+}

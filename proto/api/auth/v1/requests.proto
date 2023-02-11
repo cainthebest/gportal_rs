@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package gpcloud.api.auth.v1;
+
+message RegisterRequest {
+  string email = 1;
+
+  string password = 2;
+
+  string recaptcha_token = 3;
+}
+
+message GetUserRequest {}
+
+message ResendConfirmEMailRequest {}

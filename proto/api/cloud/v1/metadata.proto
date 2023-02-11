@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcloud/api/cloud/v1/server.proto";
+import "gpcloud/type/v1/ssh_key.proto";
+
+message MetadataNetworkInterfaceIP {
+  string ip_address = 1;
+
+  string netmask = 2;
+
+  string prefix = 3;
+
+  optional string gateway = 4;
+}
+
+message MetadataNetworkInterfaceVLAN {
+  int32 id = 1;
+
+  bool tagged = 2;
+}
+
+message MetadataNetworkInterface {
+  string mac_address = 1;
+
+  gpcloud.api.cloud.v1.MetadataNetworkInterfaceVLAN vlan = 2;
+
+  gpcloud.api.cloud.v1.MetadataNetworkInterfaceIP ipv4 = 3;
+}
+
+message MetadataNetworkDNS {
+  repeated string nameservers = 1;
+}
+
+message Metadata {
+  string instance_id = 1;
+
+  string hostname = 2;
+
+  bytes vendor_data = 3;
+
+  bytes vendor_data_2 = 4;
+
+  bytes user_data = 5;
+
+  string availability_zone = 6;
+
+  string project_id = 7;
+
+  optional string username = 8;
+
+  optional string password = 9;
+
+  string flavour = 10;
+
+  repeated gpcloud.type.v1.SSHKey ssh_keys = 11;
+
+  repeated gpcloud.api.cloud.v1.MetadataNetworkInterface interfaces = 12;
+
+  gpcloud.api.cloud.v1.MetadataNetworkDNS dns = 13;
+}
+
+message MetadataReport {
+  string ip_address = 1;
+
+  string message = 2;
+
+  api.cloud.v1.ServerLogLevelType level = 3;
+
+  google.protobuf.Timestamp timestamp = 4;
+}

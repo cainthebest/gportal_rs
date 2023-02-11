@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package gpcloud.api.payment.v1;
+
+import "gpcloud/api/payment/v1/requests.proto";
+import "gpcloud/api/payment/v1/responses.proto";
+
+service PaymentService {
+  rpc ListCreditCards (gpcloud.api.payment.v1.ListCreditCardsRequest) returns (gpcloud.api.payment.v1.ListCreditCardsResponse) {}
+  rpc AddCreditCard (gpcloud.api.payment.v1.AddCreditCardRequest) returns (gpcloud.api.payment.v1.AddCreditCardResponse) {}
+  rpc DeleteCreditCard (gpcloud.api.payment.v1.DeleteCreditCardRequest) returns (gpcloud.api.payment.v1.DeleteCreditCardResponse) {}
+
+  rpc CreateBillingAddress (gpcloud.api.payment.v1.CreateBillingAddressRequest) returns (gpcloud.api.payment.v1.CreateBillingAddressResponse) {}
+  rpc UpdateBillingAddress (gpcloud.api.payment.v1.UpdateBillingAddressRequest) returns (gpcloud.api.payment.v1.UpdateBillingAddressResponse) {}
+  rpc ListBillingAddresses (gpcloud.api.payment.v1.ListBillingAddressesRequest) returns (gpcloud.api.payment.v1.ListBillingAddressesResponse) {}
+  rpc DeleteBillingAddress (gpcloud.api.payment.v1.DeleteBillingAddressRequest) returns (gpcloud.api.payment.v1.DeleteBillingAddressResponse) {}
+}

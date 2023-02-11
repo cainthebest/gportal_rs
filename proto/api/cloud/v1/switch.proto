@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+enum SwitchType {
+  SWITCH_TYPE_UNSPECIFIED = 0;
+  SWITCH_TYPE_JUNIPER = 1;
+  SWITCH_TYPE_JUNIPER_LEGACY = 2;
+}
+
+message Switch {
+  string id = 1;
+
+  gpcloud.api.cloud.v1.SwitchType type = 2;
+
+  string ip_address = 3;
+
+  string username = 4;
+
+  string password = 5;
+
+  string name = 6;
+
+  repeated string uplink_ports = 7;
+
+  optional int64 netbox_id = 8;
+}

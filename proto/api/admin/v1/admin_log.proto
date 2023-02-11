@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package gpcloud.api.admin.v1;
+
+import "gpcloud/api/cloud/v1/user.proto";
+import "google/protobuf/timestamp.proto";
+
+message AdminLog {
+  string id = 1;
+
+  gpcloud.api.cloud.v1.BasicUser admin_user = 2;
+  gpcloud.api.cloud.v1.BasicUser target_user = 3;
+
+  string message = 4;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}

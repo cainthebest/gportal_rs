@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcloud/type/v1/price.proto";
+
+enum PaymentMethod {
+  PAYMENT_METHOD_UNSPECIFIED = 0;
+  PAYMENT_METHOD_CREDIT_CARD = 1;
+  PAYMENT_METHOD_BANK_TRANSFER = 2;
+}
+
+enum PaymentStatus {
+  PAYMENT_STATUS_UNSPECIFIED = 0;
+  PAYMENT_STATUS_PENDING = 1;
+  PAYMENT_STATUS_PAID = 2;
+  PAYMENT_STATUS_FAILED = 3;
+  PAYMENT_STATUS_REFUNDED = 4;
+}
+
+enum PaymentProviderType {
+  PAYMENT_PROVIDER_TYPE_UNSPECIFIED = 0;
+  PAYMENT_PROVIDER_TYPE_ADYEN = 1;
+}
+
+enum CreditCardType {
+  CREDIT_CARD_TYPE_UNSPECIFIED = 0;
+  CREDIT_CARD_TYPE_VISA = 1;
+  CREDIT_CARD_TYPE_MASTERCARD = 2;
+  CREDIT_CARD_TYPE_AMEX = 3;
+}
+// Available currencies in the system. This will map to an ISO 4217 currency code
+// in the database.
+enum Currency {
+  CURRENCY_UNSPECIFIED = 0;
+  CURRENCY_EURO = 1;
+  CURRENCY_US_DOLLAR = 2;
+}
+
+message CreditCard {
+  string id = 1;
+
+  string holder = 2;
+
+  int32 number = 3;
+
+  gpcloud.api.cloud.v1.CreditCardType type = 4;
+
+  google.protobuf.Timestamp expires_at = 999;
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message Payment {
+  string id = 1;
+
+  gpcloud.api.cloud.v1.PaymentStatus status = 2;
+
+  gpcloud.api.cloud.v1.PaymentMethod method = 3;
+
+  string payment_provider_id = 4;
+  string payment_provider_reference = 5;
+  string payment_id = 6;
+
+  gpcloud.type.v1.Price amount = 7;
+
+  google.protobuf.Timestamp created_at = 1000;
+}

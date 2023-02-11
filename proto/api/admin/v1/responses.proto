@@ -1,0 +1,274 @@
+syntax = "proto3";
+
+package gpcloud.api.admin.v1;
+import "gpcloud/api/admin/v1/flavour.proto";
+import "gpcloud/api/admin/v1/agent.proto";
+import "gpcloud/api/cloud/v1/image.proto";
+import "gpcloud/api/cloud/v1/switch.proto";
+import "gpcloud/api/cloud/v1/server.proto";
+import "gpcloud/api/cloud/v1/node.proto";
+import "gpcloud/api/cloud/v1/region.proto";
+import "gpcloud/api/cloud/v1/project.proto";
+import "gpcloud/api/admin/v1/admin_log.proto";
+import "gpcloud/api/admin/v1/spla_reporting.proto";
+import "gpcloud/api/cloud/v1/network.proto";
+import "gpcloud/api/cloud/v1/user.proto";
+import "gpcloud/api/cloud/v1/bill.proto";
+import "gpcloud/type/v1/price.proto";
+
+message ListServersResponse {
+  repeated gpcloud.api.cloud.v1.Server servers = 1;
+
+  int32 pages_total = 2;
+}
+
+message GetServerResponse {
+  gpcloud.api.cloud.v1.Server server = 1;
+  optional gpcloud.api.cloud.v1.Project project = 2;
+}
+
+message ListServerLogsResponse {
+  repeated gpcloud.api.cloud.v1.ServerLog logs = 1;
+  int32 pages_total = 2;
+}
+
+message UpdateServerResponse {
+  gpcloud.api.cloud.v1.Server server = 1;
+}
+
+message DeleteServerResponse{}
+
+message GetServerConsoleResponse {
+  string password = 1;
+}
+
+message GetServerPlatformManagementResponse {
+  gpcloud.api.cloud.v1.PlatformManagement platform_management = 1;
+}
+
+message ListAvailableServerResponse {
+  message AvailableServer {
+    int64 id = 1;
+    string name = 2;
+    string datacenter = 3;
+    string netbox_link = 4;
+    string flavour = 5;
+    repeated string inventory_items = 6;
+  }
+
+  repeated AvailableServer server = 1;
+}
+
+message ImportServerResponse {
+  repeated gpcloud.api.cloud.v1.Server server = 1;
+
+  repeated string errors = 2;
+}
+
+message CreateImageResponse {
+  gpcloud.api.cloud.v1.Image image = 1;
+}
+
+message ListImagesResponse {
+  repeated gpcloud.api.cloud.v1.Image images = 1;
+}
+
+message GetImageResponse {
+  gpcloud.api.cloud.v1.Image image = 1;
+}
+
+message UpdateImageResponse {
+  gpcloud.api.cloud.v1.Image image = 1;
+}
+
+message DeleteImageResponse {}
+
+message DeleteImageVersionResponse {}
+
+message ListOperatingSystemsResponse {
+  repeated gpcloud.api.cloud.v1.OperatingSystem operating_systems = 1;
+}
+
+message DeleteOperatingSystemResponse {}
+
+message CreateOperatingSystemResponse {
+  gpcloud.api.cloud.v1.OperatingSystem operating_system = 1;
+}
+
+message GetOperatingSystemResponse {
+  gpcloud.api.cloud.v1.OperatingSystem operating_system = 1;
+}
+
+message UpdateOperatingSystemResponse {
+  gpcloud.api.cloud.v1.OperatingSystem operating_system = 1;
+}
+
+message ListFlavoursResponse {
+  repeated gpcloud.api.admin.v1.AdminFlavour flavours = 1;
+}
+
+message GetFlavourResponse {
+  gpcloud.api.admin.v1.AdminFlavour flavour = 1;
+}
+
+message DeleteFlavourResponse {}
+
+message CreateFlavourResponse {
+  gpcloud.api.admin.v1.AdminFlavour flavour = 1;
+}
+
+message UpdateFlavourResponse {
+  gpcloud.api.admin.v1.AdminFlavour flavour = 1;
+}
+
+message ListSwitchesResponse {
+  repeated gpcloud.api.cloud.v1.Switch switches = 1;
+  int32 pages_total = 2;
+}
+
+message GetSwitchResponse {
+  gpcloud.api.cloud.v1.Switch switch = 1;
+}
+
+message ListUsersResponse {
+  repeated gpcloud.api.cloud.v1.User users = 1;
+  int32 pages_total = 2;
+}
+
+message GetUserResponse {
+  gpcloud.api.cloud.v1.User user = 1;
+}
+
+message UpdateUserResponse {
+  gpcloud.api.cloud.v1.User user = 1;
+}
+
+message LockUserResponse {}
+message UnlockUserResponse {}
+
+message ListUserBillsResponse {
+ repeated gpcloud.api.cloud.v1.Bill bills = 1;
+}
+
+message ListProjectsResponse {
+  repeated gpcloud.api.cloud.v1.Project projects = 1;
+  int32 pages_total = 2;
+}
+
+message GetProjectResponse {
+  gpcloud.api.cloud.v1.Project project = 1;
+
+  repeated gpcloud.api.cloud.v1.Node nodes = 2;
+
+  repeated gpcloud.api.cloud.v1.ProjectComputeDiscount compute_discounts = 3;
+}
+
+message ListProjectNetworksResponse {
+  repeated gpcloud.api.cloud.v1.Network networks = 1;
+}
+
+message CreateProjectNetworkResponse {
+  repeated gpcloud.api.cloud.v1.Network networks = 1;
+}
+
+message UpdateProjectResponse {
+  gpcloud.api.cloud.v1.Project project = 1;
+}
+
+message ListAdminLogsResponse {
+  repeated gpcloud.api.admin.v1.AdminLog logs = 1;
+
+  int32 pages_total = 2;
+}
+
+message GetIPHistoryResponse {
+  repeated gpcloud.api.cloud.v1.IPHistory ip_histories = 1;
+
+  int32 pages_total = 2;
+}
+
+message ListBillsResponse {
+  repeated gpcloud.api.cloud.v1.Bill bills = 1;
+
+  int32 pages_total = 2;
+}
+
+message GetBillResponse {
+  gpcloud.api.cloud.v1.Bill bill = 1;
+}
+
+message ResendBillResponse {}
+
+message CancelBillResponse {}
+
+message ExportBillCSVResponse {
+  string csv = 1;
+}
+
+message GetBillPdfResponse {
+  string download_url = 1;
+}
+
+message AddBillPaymentResponse {}
+
+message RefundBillPaymentResponse {}
+
+message ApplyCreditToProjectResponse {}
+
+message ListRegionsResponse {
+  repeated gpcloud.api.cloud.v1.Region regions = 1;
+}
+
+message GetRegionResponse {
+  gpcloud.api.cloud.v1.Region region = 1;
+}
+
+message ListNetworksResponse {
+  repeated gpcloud.api.cloud.v1.Network networks = 1;
+}
+message CreateNetworkResponse {
+  gpcloud.api.cloud.v1.Network network = 1;
+}
+
+message DeleteNetworkResponse {}
+
+message GetNetworkResponse {
+  gpcloud.api.cloud.v1.Network network = 1;
+}
+message UpdateNetworkResponse {
+  gpcloud.api.cloud.v1.Network network = 1;
+}
+
+message UpdateDatacenterResponse {
+  gpcloud.api.cloud.v1.Datacenter datacenter = 1;
+}
+
+message DeleteSubnetResponse {}
+
+message CreateSubnetResponse {
+  gpcloud.api.cloud.v1.Subnet subnet = 1;
+}
+
+message UpdateSubnetResponse {
+  gpcloud.api.cloud.v1.Subnet subnet = 1;
+}
+
+message GetSplaReportingResponse {
+  repeated gpcloud.api.admin.v1.SplaReporting reports = 1;
+
+  gpcloud.type.v1.Price total_price = 2;
+  int32 total_cpu_packages = 3;
+
+  repeated string dates = 4;
+}
+
+
+message ListAgentsResponse {
+  repeated gpcloud.api.admin.v1.Agent agents = 1;
+}
+
+message CreateAgentResponse {
+  gpcloud.api.admin.v1.Agent agent = 1;
+}
+
+message DeleteAgentResponse {}

@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "gpcloud/api/cloud/v1/requests.proto";
+import "gpcloud/api/cloud/v1/responses.proto";
+
+// CloudService provide the basic needs to work with projects and their nodes.
+// This is your daily driver to maintain and grow your fleet of nodes. Projects
+// group a list of nodes. Every project can have it's own bill. Users can be part
+// of one or more projects.
+service CloudService {
+  // ListCountries lists all the supported countries in which we provide business.
+  // You can use this to check the tax rate and if we provide network support for
+  // what country. If your country is not in that list, you can not use the service.
+  rpc ListCountries (gpcloud.api.cloud.v1.ListCountriesRequest) returns (gpcloud.api.cloud.v1.ListCountriesResponse) {}
+  // ListDatacenters lists all the available datacenters you can order new nodes.
+  // This list will grow over time when more datacenters are added, but it can
+  // sometimes shrink for some time if there are no hardware available in this
+  // region. Upcoming datacenters are still in that list, but has the status flag
+  // COMING_SOON. If you place a new order in a specific datacenter, make sure the
+  // status is AVAILABLE.
+  rpc ListDatacenters (gpcloud.api.cloud.v1.ListDatacentersRequest) returns (gpcloud.api.cloud.v1.ListDatacentersResponse) {}
+  // ListPublicImages list all public OS images which can be used to install on
+  // a node. Different flavours provide a different list of images, so you need
+  // to provide a flavour ID. You get the list of available flavours for a given
+  // project from the ListProjectFlavours call.
+  rpc ListPublicImages (gpcloud.api.cloud.v1.ListPublicImagesRequest) returns (gpcloud.api.cloud.v1.ListPublicImagesResponse) {}
+  // ListProjectFlavours list all the available flavours for the given project ID
+  // and the datacenter. Not all flavours are available on all datacenters.
+  rpc ListProjectFlavours (gpcloud.api.cloud.v1.ListProjectFlavoursRequest) returns (gpcloud.api.cloud.v1.ListProjectFlavoursResponse) {}
+
+  rpc ListProjects (gpcloud.api.cloud.v1.ListProjectsRequest) returns (gpcloud.api.cloud.v1.ListProjectsResponse) {}
+  rpc CreateProject (gpcloud.api.cloud.v1.CreateProjectRequest) returns (gpcloud.api.cloud.v1.CreateProjectResponse) {}
+  rpc GetProject (gpcloud.api.cloud.v1.GetProjectRequest) returns (gpcloud.api.cloud.v1.GetProjectResponse) {}
+  rpc UpdateProject (gpcloud.api.cloud.v1.UpdateProjectRequest) returns (gpcloud.api.cloud.v1.UpdateProjectResponse) {}
+  rpc DeleteProject (gpcloud.api.cloud.v1.DeleteProjectRequest) returns (gpcloud.api.cloud.v1.DeleteProjectResponse) {}
+
+  rpc SubscribeNotifications (gpcloud.api.cloud.v1.SubscribeNotificationsRequest) returns (stream gpcloud.api.cloud.v1.SubscribeNotificationsResponse) {}
+
+  rpc ChangeDefaultProject (gpcloud.api.cloud.v1.ChangeDefaultProjectRequest) returns (gpcloud.api.cloud.v1.ChangeDefaultProjectResponse) {}
+  rpc ListProjectLogs (gpcloud.api.cloud.v1.ListProjectLogsRequest) returns (gpcloud.api.cloud.v1.ListProjectLogsResponse) {}
+
+  rpc JoinProject (gpcloud.api.cloud.v1.JoinProjectRequest) returns (gpcloud.api.cloud.v1.JoinProjectResponse) {}
+  rpc LeaveProject (gpcloud.api.cloud.v1.LeaveProjectRequest) returns (gpcloud.api.cloud.v1.LeaveProjectResponse) {}
+  rpc InviteMemberToProject (gpcloud.api.cloud.v1.InviteMemberToProjectRequest) returns (gpcloud.api.cloud.v1.InviteMemberToProjectResponse) {}
+  rpc RemoveMemberFromProject (gpcloud.api.cloud.v1.RemoveMemberFromProjectRequest) returns (gpcloud.api.cloud.v1.RemoveMemberFromProjectResponse) {}
+
+  rpc GetProjectCurrentBillingPreviewPdf (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewPdfRequest) returns (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewPdfResponse) {}
+  rpc GetProjectBillPdf (gpcloud.api.cloud.v1.GetProjectBillPdfRequest) returns (gpcloud.api.cloud.v1.GetProjectBillPdfResponse) {}
+  rpc PayProjectNow (gpcloud.api.cloud.v1.PayProjectNowRequest) returns (gpcloud.api.cloud.v1.PayProjectNowResponse) {}
+  rpc ListProjectBills (gpcloud.api.cloud.v1.ListProjectBillsRequest) returns (gpcloud.api.cloud.v1.ListProjectBillsResponse) {}
+  rpc GetProjectCurrentBillingPreview (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewRequest) returns (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewResponse) {}
+  rpc GetProjectsOutstandingBalance (gpcloud.api.cloud.v1.GetProjectsOutstandingBalanceRequest) returns (gpcloud.api.cloud.v1.GetProjectsOutstandingBalanceResponse) {}
+  rpc GetProjectSplaPrice (gpcloud.api.cloud.v1.GetProjectSplaPriceRequest) returns (gpcloud.api.cloud.v1.GetProjectSplaPriceResponse) {}
+
+  rpc ListNodes (gpcloud.api.cloud.v1.ListNodesRequest) returns (gpcloud.api.cloud.v1.ListNodesResponse) {}
+  rpc CreateNode (gpcloud.api.cloud.v1.CreateNodeRequest) returns (gpcloud.api.cloud.v1.CreateNodeResponse) {}
+  rpc GetNode (gpcloud.api.cloud.v1.GetNodeRequest) returns (gpcloud.api.cloud.v1.GetNodeResponse) {}
+  rpc UpdateNode (gpcloud.api.cloud.v1.UpdateNodeRequest) returns (gpcloud.api.cloud.v1.UpdateNodeResponse) {}
+  rpc DestroyNode (gpcloud.api.cloud.v1.DestroyNodeRequest) returns (gpcloud.api.cloud.v1.DestroyNodeResponse) {}
+
+  rpc GetUserNodeLimit (gpcloud.api.cloud.v1.GetUserNodeLimitRequest) returns (gpcloud.api.cloud.v1.GetUserNodeLimitResponse) {}
+  rpc GetNodeConsole (gpcloud.api.cloud.v1.GetNodeConsoleRequest) returns (gpcloud.api.cloud.v1.GetNodeConsoleResponse) {}
+  rpc ChangeNodeRescueMode (gpcloud.api.cloud.v1.ChangeNodeRescueModeRequest) returns (gpcloud.api.cloud.v1.ChangeNodeRescueModeResponse) {}
+  rpc PowerActionNode (gpcloud.api.cloud.v1.PowerActionNodeRequest) returns (gpcloud.api.cloud.v1.PowerActionNodeResponse) {}
+  rpc ReinstallNode (gpcloud.api.cloud.v1.ReinstallNodeRequest) returns (gpcloud.api.cloud.v1.ReinstallNodeResponse) {}
+  rpc ChangeNodeRenewState (gpcloud.api.cloud.v1.ChangeNodeRenewStateRequest) returns (gpcloud.api.cloud.v1.ChangeNodeRenewStateResponse) {}
+  rpc GetNodePricing (gpcloud.api.cloud.v1.GetNodePricingRequest) returns (gpcloud.api.cloud.v1.GetNodePricingResponse) {}
+  rpc ChangeNodeBillingPeriod (gpcloud.api.cloud.v1.ChangeNodeBillingPeriodRequest) returns (gpcloud.api.cloud.v1.ChangeNodeBillingPeriodResponse) {}
+
+  rpc ListProjectImages (gpcloud.api.cloud.v1.ListProjectImagesRequest) returns (gpcloud.api.cloud.v1.ListProjectImagesResponse) {}
+  rpc CreateProjectImage (gpcloud.api.cloud.v1.CreateProjectImageRequest) returns (gpcloud.api.cloud.v1.CreateProjectImageResponse) {}
+  rpc GetProjectImage (gpcloud.api.cloud.v1.GetProjectImageRequest) returns (gpcloud.api.cloud.v1.GetProjectImageResponse) {}
+  rpc DeleteProjectImage (gpcloud.api.cloud.v1.DeleteProjectImageRequest) returns (gpcloud.api.cloud.v1.DeleteProjectImageResponse) {}
+  rpc DeleteProjectImageVersion (gpcloud.api.cloud.v1.DeleteProjectImageVersionRequest) returns (gpcloud.api.cloud.v1.DeleteProjectImageVersionResponse) {}
+
+  rpc ListProjectSSHKeys (gpcloud.api.cloud.v1.ListProjectSSHKeysRequest) returns (gpcloud.api.cloud.v1.ListProjectSSHKeysResponse) {}
+
+  rpc ListUserSSHKeys (gpcloud.api.cloud.v1.ListUserSSHKeysRequest) returns (gpcloud.api.cloud.v1.ListUserSSHKeysResponse) {}
+  rpc CreateUserSSHKey (gpcloud.api.cloud.v1.CreateUserSSHKeyRequest) returns (gpcloud.api.cloud.v1.CreateUserSSHKeyResponse) {}
+  rpc DeleteUserSSHKey (gpcloud.api.cloud.v1.DeleteUserSSHKeyRequest) returns (gpcloud.api.cloud.v1.DeleteUserSSHKeyResponse) {}
+}

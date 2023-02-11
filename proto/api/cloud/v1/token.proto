@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+message AccessTokenPair {
+  string access_token = 1;
+
+  string refresh_token = 2;
+}

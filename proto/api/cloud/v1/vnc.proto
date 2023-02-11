@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+message VncEndpoint {
+    string ip_address = 1;
+
+    int32 port = 2;
+
+    string password = 3;
+}

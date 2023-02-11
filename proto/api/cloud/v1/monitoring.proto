@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+enum MonitoringTag {
+  MONITORING_TAG_UNSPECIFIED = 0;
+  MONITORING_TAG_PLATFORM_MANAGEMENT = 1;
+  MONITORING_TAG_SERVER = 2;
+}
+
+message MonitoringTarget {
+  string id = 1;
+
+  string ip_address = 2;
+
+  gpcloud.api.cloud.v1.MonitoringTag tag = 3;
+}
+
+message MonitoringStatus {
+  string ip_address = 1;
+
+  bool reachable = 2;
+}

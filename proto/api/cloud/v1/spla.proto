@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "gpcloud/type/v1/price.proto";
+
+message SplaPrice {
+    // Base price for the first 8 cores
+    gpcloud.type.v1.Price base_price = 1;
+
+    // Additional price for 2 further CPU cores
+    gpcloud.type.v1.Price additional_2_cores_price = 2;
+}

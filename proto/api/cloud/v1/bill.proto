@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcloud/api/cloud/v1/payment.proto";
+import "gpcloud/api/cloud/v1/billing.proto";
+import "gpcloud/api/cloud/v1/project.proto";
+import "gpcloud/api/cloud/v1/user.proto";
+import "gpcloud/type/v1/price.proto";
+
+enum BillItemType {
+  BILL_ITEM_TYPE_UNSPECIFIED = 0;
+  BILL_ITEM_TYPE_CREDIT = 1;
+  BILL_ITEM_TYPE_VOUCHER = 2;
+  BILL_ITEM_TYPE_NODE = 3;
+  BILL_ITEM_TYPE_WINDOWS_LICENSE = 4;
+  BILL_ITEM_TYPE_SUPPORT_PACKAGE = 5;
+  BILL_ITEM_TYPE_TRAFFIC = 6;
+}
+
+enum BillStatus {
+  BILL_STATUS_UNSPECIFIED = 0;
+  BILL_STATUS_UNPAID = 1;
+  BILL_STATUS_PAID = 2;
+  BILL_STATUS_CANCELLED = 3;
+  BILL_STATUS_REFUNDED = 4;
+  BILL_STATUS_ERROR = 5;
+}
+
+message Bill {
+  string id = 1;
+
+  string number = 2;
+  bool final = 3;
+
+  // This information is king of duplicated. "net" and "gross" prices
+  // also have a currency, but just for display purpose. So use this
+  // currency to work with in bills etc. and the "currency" string in
+  // the price message ("net" and "gross") for the frontend and to print
+  // in PDFs and such.
+  gpcloud.api.cloud.v1.Currency currency = 4;
+
+  int32 vat = 5;
+
+  gpcloud.type.v1.Price net = 6;
+  gpcloud.type.v1.Price gross = 7;
+
+  BillStatus status = 8;
+
+  gpcloud.api.cloud.v1.PaymentMethod payment_method = 9;
+
+  repeated BillItem items = 10;
+
+  gpcloud.type.v1.Price outstanding_net = 11;
+  gpcloud.type.v1.Price outstanding_gross = 12;
+
+  google.protobuf.Timestamp due_at = 13;
+  google.protobuf.Timestamp created_at = 1000;
+
+  gpcloud.api.cloud.v1.BasicUser user = 15;
+  gpcloud.api.cloud.v1.BasicProject project = 16;
+
+  gpcloud.type.v1.Price outstanding_balance = 17;
+
+  gpcloud.api.cloud.v1.BillingAddress billing_address = 18;
+}
+
+message BillItem {
+  string id = 1;
+
+  gpcloud.api.cloud.v1.BillItemType product = 2;
+
+  string description = 3;
+
+  gpcloud.type.v1.Price price = 4;
+
+  google.protobuf.Timestamp started_at = 5;
+  google.protobuf.Timestamp ended_at = 6;
+
+  BillingPeriod billing_period = 7;
+}

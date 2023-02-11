@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+
+enum DatacenterStatus {
+  DATACENTER_STATUS_UNSPECIFIED = 0;
+  DATACENTER_STATUS_AVAILABLE = 1;
+  DATACENTER_STATUS_COMING_SOON = 2;
+  DATACENTER_STATUS_UNAVAILABLE = 3;
+}
+
+message Datacenter {
+  string id = 1;
+
+  string name = 2;
+
+  string short = 3;
+
+  Region region = 4;
+
+  DatacenterStatus status = 5;
+
+  string latency_endpoint = 6;
+
+  repeated int32 management_vlan_ids = 7;
+
+  string server_prefix = 8;
+
+  optional int64 netbox_id = 9;
+}
+
+message Region {
+  string id = 1;
+
+  string name = 2;
+
+  // Country code ISO 3166-1 alpha-2
+  string country_code = 3;
+
+  repeated Datacenter datacenters = 4;
+
+  optional int64 netbox_id = 5;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package gpcloud.api.gateway.v1;
+
+import "gpcloud/api/cloud/v1/image.proto";
+
+message GetVncResponse {
+  string websocket = 1;
+}
+
+message ImageUploadValidateResponse {
+  gpcloud.api.cloud.v1.ImageVersion image_version = 1;
+}
+
+message ImageUploadConfirmResponse {
+}

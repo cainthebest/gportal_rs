@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcloud/api/cloud/v1/project.proto";
+import "gpcloud/api/cloud/v1/region.proto";
+
+enum NetworkType {
+  NETWORK_TYPE_UNSPECIFIED = 0;
+  NETWORK_TYPE_PUBLIC = 1;
+}
+
+enum IPVersion {
+  IP_VERSION_UNSPECIFIED = 0;
+  IP_VERSION_IPV4 = 1;
+  IP_VERSION_IPV6 = 2;
+}
+
+message Network {
+  string id = 1;
+
+  string name = 2;
+
+  gpcloud.api.cloud.v1.NetworkType type = 3;
+
+  optional gpcloud.api.cloud.v1.BasicProject project  = 4;
+
+  repeated Subnet subnets = 5;
+
+  int32 vlan_id = 6;
+
+  gpcloud.api.cloud.v1.Datacenter datacenter = 7;
+
+  int64 pool_size = 8;
+  int64 pool_available = 9;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message Cidr {
+  gpcloud.api.cloud.v1.IPVersion ip_version = 1;
+
+  string cidr = 2;
+}
+
+message Subnet {
+  string id = 1;
+
+  gpcloud.api.cloud.v1.Network network = 2;
+
+  gpcloud.api.cloud.v1.Cidr cidr = 3;
+  gpcloud.api.cloud.v1.Cidr gateway_ip = 4;
+
+  bool dhcp = 5;
+
+  gpcloud.api.cloud.v1.Cidr pool_start = 6;
+  gpcloud.api.cloud.v1.Cidr pool_end = 7;
+
+  int64 pool_size = 8;
+  int64 pool_available = 9;
+}
+
+
+message IPAddress {
+  gpcloud.api.cloud.v1.Cidr address = 1;
+
+  gpcloud.api.cloud.v1.Subnet subnet = 2;
+
+  bool primary = 3;
+
+  bool online = 4;
+}

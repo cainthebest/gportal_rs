@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+
+enum BillingPeriod {
+  BILLING_PERIOD_UNSPECIFIED = 0;
+  BILLING_PERIOD_HOURLY = 1;
+  BILLING_PERIOD_MONTHLY = 2;
+}
+
+message BillingAddressCompany {
+  string name = 1;
+
+  optional string vat_id = 2;
+}
+
+message BillingAddress {
+  string id = 1;
+
+  optional gpcloud.api.cloud.v1.BillingAddressCompany company = 2;
+
+  string name = 3;
+
+  string country_code = 4;
+  string state = 5;
+  string street = 6;
+  string city = 7;
+  string postcode = 8;
+
+  string billing_email = 9;
+
+  int32 tax_rate = 10;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}

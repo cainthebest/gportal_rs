@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcloud/api/cloud/v1/payment.proto";
+
+message BasicUser {
+    string id = 1;
+    string username = 2;
+    string full_name = 3;
+    string email = 4;
+    string avatar_url = 5;
+}
+
+message User {
+  // UUID of user
+  string id = 1;
+
+  // Username (not unique!)
+  string username = 2;
+
+  // Customer number
+  string number = 3;
+
+  // Full name for user
+  string full_name = 4;
+
+  // User e-mail address
+  string email = 5;
+
+  // Returns true if user email is confirmed
+  bool confirmed = 6;
+
+  // Returns true if user email is locked
+  bool locked = 7;
+
+  // Avatar URL
+  string avatar_url = 8;
+
+  // Compute limit
+  int32 node_limit = 9;
+
+  // User allowed payment methods
+  repeated gpcloud.api.cloud.v1.PaymentMethod payment_methods = 10;
+
+  string keycloak_id = 11;
+
+  google.protobuf.Timestamp last_login_at = 999;
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}

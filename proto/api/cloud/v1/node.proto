@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcloud/api/cloud/v1/billing.proto";
+import "gpcloud/api/cloud/v1/server.proto";
+import "gpcloud/api/cloud/v1/region.proto";
+import "gpcloud/api/cloud/v1/image.proto";
+import "gpcloud/api/cloud/v1/flavour.proto";
+import "gpcloud/api/cloud/v1/network.proto";
+import "gpcloud/type/v1/ssh_key.proto";
+import "gpcloud/type/v1/price.proto";
+
+enum NodeRenewState {
+  NODE_RENEW_STATE_UNSPECIFIED = 0;
+  NODE_RENEW_STATE_EXTEND = 1;
+  NODE_RENEW_STATE_DELETE = 2;
+  NODE_RENEW_STATE_TO_HOURLY = 3;
+}
+
+message UserNodeLimit {
+  int32 limit = 1;
+  int32 current = 2;
+}
+
+message NodeNetworkInterface {
+  string mac = 1;
+
+  repeated string ip_addresses = 2;
+
+  gpcloud.api.cloud.v1.NetworkType type = 3;
+}
+
+message RescueMode {
+  bool enabled = 1;
+  string password = 2;
+}
+
+message Node {
+  string id = 1;
+  string project_id = 2;
+
+  string fqdn = 3;
+
+  gpcloud.api.cloud.v1.ServerProvisioningState status = 4;
+
+  repeated gpcloud.api.cloud.v1.NodeNetworkInterface network_interfaces = 5;
+
+  map<string, string> tags = 7;
+
+  gpcloud.api.cloud.v1.Datacenter datacenter = 8;
+
+  gpcloud.api.cloud.v1.Flavour flavour = 9;
+
+  gpcloud.api.cloud.v1.Image image = 10;
+
+  bool has_console_access = 11;
+
+  gpcloud.api.cloud.v1.BillingPeriod billing_period = 12;
+  gpcloud.type.v1.Price price = 13;
+
+  gpcloud.api.cloud.v1.NodeRenewState renew_state = 14;
+
+  gpcloud.api.cloud.v1.ServerPowerState power_state = 15;
+
+  bool has_spla_license = 16;
+
+  google.protobuf.Timestamp paid_until_at = 999;
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message NodeProvisioning {
+    string fqdn = 1;
+
+    string user_data = 2;
+
+    repeated gpcloud.type.v1.SSHKey ssh_keys = 3;
+
+    optional string password = 4;
+}

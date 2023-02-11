@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package gpcloud.api.auth.v1;
+
+import "gpcloud/v1/options.proto";
+import "gpcloud/api/auth/v1/requests.proto";
+import "gpcloud/api/auth/v1/responses.proto";
+
+service AuthService {
+  rpc Register (gpcloud.api.auth.v1.RegisterRequest) returns (gpcloud.api.auth.v1.RegisterResponse) {
+    option (gpcloud.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_PUBLIC;
+    };
+  }
+
+  rpc GetUser (gpcloud.api.auth.v1.GetUserRequest) returns (gpcloud.api.auth.v1.GetUserResponse) {}
+
+  rpc ResendConfirmEMail (gpcloud.api.auth.v1.ResendConfirmEMailRequest) returns (gpcloud.api.auth.v1.ResendConfirmEMailResponse) {}
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package gpcloud.api.auth.v1;
+
+import "gpcloud/api/cloud/v1/user.proto";
+import "gpcloud/api/cloud/v1/token.proto";
+
+message RegisterResponse {
+  gpcloud.api.cloud.v1.User user = 1;
+
+  gpcloud.api.cloud.v1.AccessTokenPair tokens = 2;
+}
+
+message GetUserResponse {
+  gpcloud.api.cloud.v1.User user = 1;
+}
+
+message ResendConfirmEMailResponse {}

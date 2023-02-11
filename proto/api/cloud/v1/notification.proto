@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "gpcloud/api/cloud/v1/node.proto";
+import "gpcloud/api/cloud/v1/user.proto";
+import "gpcloud/api/cloud/v1/project.proto";
+
+message Notification {
+  oneof message {
+    gpcloud.api.cloud.v1.User user = 1;
+    gpcloud.api.cloud.v1.Project project = 2;
+    gpcloud.api.cloud.v1.Node node = 3;
+  }
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package gpcloud.type.v1;
+
+message Country {
+  string country_code = 1;
+  string name = 2;
+  bool net_support = 3;
+}

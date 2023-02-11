@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package gpcloud.api.network.v1;
+
+import "gpcloud/api/cloud/v1/monitoring.proto";
+import "gpcloud/api/cloud/v1/vnc.proto";
+
+message GetDHCPInformationResponse {
+  string ip_address = 1;
+
+  string gateway = 2;
+
+  repeated string dns_servers = 3;
+
+  repeated string ntp_servers = 4;
+
+  string lease_ttl = 5;
+}
+
+message ListMonitoringTargetsResponse {
+  repeated gpcloud.api.cloud.v1.MonitoringTarget targets = 1;
+}
+
+message UpdateMonitoringStatusResponse {}
+
+message ListVncEndpointsResponse {
+  repeated gpcloud.api.cloud.v1.VncEndpoint endpoints = 1;
+}

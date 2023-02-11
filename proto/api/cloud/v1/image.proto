@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package gpcloud.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcloud/api/cloud/v1/project.proto";
+
+
+enum AuthenticationType {
+  AUTHENTICATION_TYPE_UNSPECIFIED = 0;
+  AUTHENTICATION_TYPE_PASSWORD = 1;
+  AUTHENTICATION_TYPE_SSH = 2;
+}
+
+enum OperatingSystemFamily {
+  OPERATING_SYSTEM_FAMILY_UNSPECIFIED = 0;
+  OPERATING_SYSTEM_FAMILY_WINDOWS = 1;
+  OPERATING_SYSTEM_FAMILY_LINUX = 2;
+}
+
+message OperatingSystem {
+  string id = 1;
+
+  string name = 2;
+
+  OperatingSystemFamily family = 3;
+}
+
+enum ImageChecksumType {
+  IMAGE_CHECKSUM_TYPE_UNSPECIFIED = 0;
+  IMAGE_CHECKSUM_TYPE_MD5 = 1;
+  IMAGE_CHECKSUM_TYPE_SHA1 = 2;
+  IMAGE_CHECKSUM_TYPE_SHA256 = 3;
+  IMAGE_CHECKSUM_TYPE_SHA512 = 4;
+}
+
+
+enum ImageFormatType {
+  IMAGE_FORMAT_TYPE_UNSPECIFIED = 0;
+  IMAGE_FORMAT_TYPE_RAW = 1;
+  IMAGE_FORMAT_TYPE_QCOW2 = 2;
+}
+
+message ImageChecksum {
+  api.cloud.v1.ImageChecksumType type = 1;
+  string checksum = 2;
+}
+
+message ImageVersion {
+  string id = 1;
+
+  int64 size = 2;
+
+  bool available = 3;
+
+  api.cloud.v1.ImageChecksum checksum = 4;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message ImageUpload {
+  string upload_url = 1;
+
+  string token = 2;
+}
+
+message BasicImage {
+  string id = 1;
+
+  api.cloud.v1.OperatingSystem operating_system = 2;
+
+  string name = 3;
+}
+
+message Image {
+  string id = 1;
+
+  api.cloud.v1.OperatingSystem operating_system = 2;
+
+  string name = 3;
+
+  // Default username for login
+  string username = 4;
+
+  bool public = 5;
+
+  bool available = 6;
+
+  repeated api.cloud.v1.AuthenticationType authentication_types = 7;
+
+  optional api.cloud.v1.Project project = 8;
+
+  repeated api.cloud.v1.ImageVersion versions = 9;
+
+  api.cloud.v1.ImageUpload image_upload = 10;
+
+  string vendor_data = 11;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message ProvisioningImage {
+  oneof image {
+    string id = 1;
+    string alias = 2;
+  }
+}

@@ -1,0 +1,404 @@
+syntax = "proto3";
+
+package gpcloud.api.admin.v1;
+import "gpcloud/api/cloud/v1/flavour.proto";
+import "gpcloud/api/cloud/v1/image.proto";
+import "gpcloud/api/cloud/v1/network.proto";
+import "gpcloud/api/cloud/v1/payment.proto";
+import "gpcloud/api/cloud/v1/billing.proto";
+import "gpcloud/api/cloud/v1/region.proto";
+import "gpcloud/api/cloud/v1/project.proto";
+import "gpcloud/api/cloud/v1/bill.proto";
+import "gpcloud/api/admin/v1/agent.proto";
+
+
+message ListServersRequest {
+  int32 page = 1;
+  optional string search = 2;
+}
+
+message GetServerRequest {
+  string id = 1;
+}
+
+// ListServerLogsRequest list all server logs for a given server. An optional
+// search field can be used to filter the result. If the resulting list is too
+// long, you will receive only a portion of the result. More results can be
+// fetched be increasing the page.
+message ListServerLogsRequest {
+  // Server UUID
+  string id = 1;
+  // Which page from the result are needed. Useful for pagination
+  int32 page = 2;
+  // An optional search term, can be contain spaces for fuzzy search
+  optional string search = 3;
+}
+
+message UpdateServerRequest {
+  string id = 1;
+
+  string flavour_id = 2;
+
+  bool in_pool = 3;
+}
+
+message DeleteServerRequest {
+  string id = 1;
+}
+
+message GetServerConsoleRequest {
+  string id = 1;
+}
+
+message GetServerPlatformManagementRequest {
+  string id = 1;
+}
+
+message ListAvailableServerRequest {}
+
+message ImportServerRequest {
+  repeated int64 netbox_ids = 1;
+}
+
+message CreateImageRequest {
+  string operating_system_id = 1;
+  string name = 2;
+  string username = 3;
+  bool available = 4;
+  repeated api.cloud.v1.AuthenticationType authentication_types = 5;
+  optional string vendor_data = 6;
+}
+
+message ListImagesRequest {}
+
+message GetImageRequest{
+  string id = 1;
+}
+
+message UpdateImageRequest {
+  string id = 1;
+  string name = 2;
+  string username = 3;
+  bool available = 4;
+  repeated api.cloud.v1.AuthenticationType authentication_types = 5;
+  optional string vendor_data = 6;
+}
+
+message DeleteImageRequest {
+  string id = 1;
+}
+
+message DeleteImageVersionRequest {
+  string id = 1;
+}
+
+message ListOperatingSystemsRequest {}
+
+message DeleteOperatingSystemRequest {
+  string id = 1;
+}
+
+message CreateOperatingSystemRequest {
+  string name = 1;
+  gpcloud.api.cloud.v1.OperatingSystemFamily family = 2;
+}
+
+message GetOperatingSystemRequest {
+  string id = 1;
+}
+
+message UpdateOperatingSystemRequest {
+  string id = 1;
+  string name = 2;
+  gpcloud.api.cloud.v1.OperatingSystemFamily family = 3;
+}
+
+// Request to list all available flavours.
+message ListFlavoursRequest {}
+
+message GetFlavourRequest {
+  string id = 1;
+}
+
+message UpdateFlavourRequest {
+  string id = 1;
+  string name = 2;
+
+  string cpu = 5;
+  int32 cpu_amount = 6;
+  int32 cpu_cores = 7;
+  int32 cpu_threads = 8;
+
+  string memory = 9;
+  string disk = 10;
+  string network = 11;
+  int64 traffic = 12;
+
+  repeated gpcloud.api.cloud.v1.FlavourMapping mappings = 13;
+}
+
+message CreateFlavourRequest {
+  string name = 1;
+
+  string cpu = 2;
+  int32 cpu_amount = 3;
+  int32 cpu_cores = 4;
+  int32 cpu_threads = 5;
+
+  string memory = 6;
+  string disk = 7;
+  string network = 8;
+  int64 traffic = 9;
+}
+
+message DeleteFlavourRequest {
+  string id = 1;
+}
+
+message ListSwitchesRequest {
+  int32 page = 1;
+  optional string search = 2;
+}
+
+message GetSwitchRequest {
+  string id = 1;
+}
+
+message ListUsersRequest {
+  int32 page = 1;
+  optional string search = 2;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+// XXX: Reintroduce in frontend
+message UpdateUserRequest {
+  string id = 1;
+  optional string number = 2;
+  optional string full_name = 3;
+  optional string email = 4;
+
+  // If the user can use the platform
+  optional bool confirmed = 5;
+
+  // If the user is an admin
+  optional bool admin = 6;
+
+  // How many node the user can create
+  optional int32 node_limit = 7;
+
+  // A list of allowed payment methods
+  repeated gpcloud.api.cloud.v1.PaymentMethod allowed_payment_methods = 8;
+
+  // Avatar URL
+  optional string avatar_url = 9;
+}
+
+// XXX: Reintroduce in frontend
+message LockUserRequest {
+  string user_id = 1;
+  string reason = 2;
+}
+
+// XXX: Reintroduce in frontend
+message UnlockUserRequest {
+  string user_id = 1;
+  string reason = 2;
+}
+
+message ListUserBillsRequest {
+  int32 page = 1;
+  optional string user_id = 2;
+}
+
+message ListProjectsRequest {
+  int32 page = 1;
+  optional string search = 2;
+  optional string user_id = 3;
+}
+
+message GetProjectRequest {
+  string id = 1;
+}
+
+message ListProjectNetworksRequest {
+  string id = 1;
+}
+
+message CreateProjectNetworkRequest {
+  string project_id = 1;
+
+  string name = 2;
+
+  gpcloud.api.cloud.v1.NetworkType type = 3;
+
+  repeated gpcloud.api.cloud.v1.Subnet subnets = 5;
+
+  optional int32 vlan_id = 6;
+
+  gpcloud.api.cloud.v1.Datacenter datacenter = 7;
+}
+
+message UpdateProjectRequest {
+  string id = 1;
+
+  string name = 2;
+  string description = 3;
+  string avatar_url = 4;
+
+  // Currency used for that project
+  gpcloud.api.cloud.v1.Currency currency = 5;
+
+  // Project environment
+  gpcloud.api.cloud.v1.ProjectEnvironment environment = 6;
+
+  // Linked Credit card
+  gpcloud.api.cloud.v1.CreditCard credit_card = 7;
+
+  // Linked billing address
+  gpcloud.api.cloud.v1.BillingAddress billing_address = 8;
+
+  // Payment method
+  gpcloud.api.cloud.v1.PaymentMethod payment_method = 9;
+
+  // If user needs payment
+  bool use_payment = 10;
+}
+
+message ListAdminLogsRequest {
+  int32 page = 1;
+
+  optional string search = 2;
+  optional string admin_user_id = 3;
+  optional string user_id = 4;
+}
+
+message GetIPHistoryRequest {
+  int32 page = 1;
+
+  optional string search = 2;
+}
+
+message ListBillsRequest {
+  int32 page = 1;
+
+  gpcloud.api.cloud.v1.BillStatus filter = 2;
+
+  bool final_only = 3;
+}
+
+message ResendBillRequest {
+  string id = 1;
+}
+
+message GetBillRequest {
+  string id = 1;
+}
+
+message CancelBillRequest {
+  string id = 1;
+}
+
+message ExportBillCSVRequest {
+  string id = 1;
+}
+
+message GetBillPdfRequest {
+  string id = 1;
+}
+
+message AddBillPaymentRequest {
+  string id = 1;
+  int64 amount = 2;
+}
+
+message RefundBillPaymentRequest {
+  string id = 1;
+}
+
+message ApplyCreditToProjectRequest {
+  string id = 1;
+  int64 amount = 2;
+  string reason = 3;
+}
+
+message GetRegionRequest {
+  string id = 1;
+}
+
+message ListRegionsRequest {}
+
+message ListNetworksRequest {}
+
+message CreateNetworkRequest {
+  string datacenter_id = 1;
+  gpcloud.api.cloud.v1.NetworkType type = 2;
+  string name = 3;
+  int32 vlan_id = 4;
+}
+
+message DeleteNetworkRequest {
+  string id = 1;
+}
+
+message GetNetworkRequest {
+  string id = 1;
+}
+message UpdateNetworkRequest {
+  string id = 1;
+  string name = 2;
+  int32 vlan_id = 3;
+}
+
+message UpdateDatacenterRequest {
+  string id = 1;
+
+  gpcloud.api.cloud.v1.DatacenterStatus status = 2;
+}
+
+message DeleteSubnetRequest {
+  string id = 1;
+}
+message CreateSubnetRequest {
+  string network_id = 1;
+
+  string cidr = 2;
+  string pool_start = 3;
+  string pool_end = 4;
+
+  string gateway = 5;
+
+  bool dhcp = 6;
+}
+message UpdateSubnetRequest {
+  string id = 1;
+
+  string cidr = 2;
+  string pool_start = 3;
+  string pool_end = 4;
+
+  string gateway = 5;
+
+  bool dhcp = 6;
+}
+
+message GetSplaReportingRequest {
+  int32 year = 1;
+  int32 month = 2;
+}
+
+message ListAgentsRequest {}
+
+message CreateAgentRequest {
+  gpcloud.api.admin.v1.AgentType type = 1;
+
+  string datacenter_id = 2;
+
+  string fqdn = 3;
+}
+
+message DeleteAgentRequest {
+  string id = 1;
+}

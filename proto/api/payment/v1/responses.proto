@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package gpcloud.api.payment.v1;
+
+import "gpcloud/api/cloud/v1/payment.proto";
+import "gpcloud/api/cloud/v1/billing.proto";
+
+message ListCreditCardsResponse {
+  repeated gpcloud.api.cloud.v1.CreditCard credit_cards = 1;
+}
+
+message AddCreditCardResponse {
+  gpcloud.api.cloud.v1.CreditCard credit_card = 1;
+}
+
+message DeleteCreditCardResponse {}
+
+message CreateBillingAddressResponse {
+  gpcloud.api.cloud.v1.BillingAddress billing_address = 1;
+}
+
+message UpdateBillingAddressResponse {
+  gpcloud.api.cloud.v1.BillingAddress billing_address = 1;
+}
+
+message ListBillingAddressesResponse {
+  repeated gpcloud.api.cloud.v1.BillingAddress billing_addresses = 1;
+}
+
+message DeleteBillingAddressResponse {}
