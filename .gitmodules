@@ -1,0 +1,3 @@
+[submodule "gpcloud-proto"]
+	path = gpcloud-proto
+	url = https://github.com/G-PORTAL/gpcloud-proto.git
