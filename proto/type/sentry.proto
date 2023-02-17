@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package gpcloud.type.v1;
-
-message SentryEvent {
-  string event_id = 1;
-}
