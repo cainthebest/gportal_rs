@@ -9,7 +9,7 @@ license = "GPL-3.0-or-later"
 [dependencies]
 tonic = "0.8"
 prost = "0.11"
-tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.26", features = ["macros", "rt-multi-thread"] }
 
 [build-dependencies]
 tonic-build = "0.8"
